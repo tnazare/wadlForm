@@ -27,6 +27,10 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/wadlparser', {
+        templateUrl: 'views/wadlparser.html',
+        controller: 'WadlParser'
+      })
       .otherwise({
         redirectTo: '/'
       });

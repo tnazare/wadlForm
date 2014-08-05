@@ -1,0 +1,18 @@
+<form name="apiUrlForm" ngSubmit="submit()" novalidate role="form">
+	<label for="url">Enter API url :</label>
+	<input type="text" name="url"/>
+ 	<input type="submit" id="submit" value="Submit" />
+ 	{{urlBack}}
+</form>
+
+<div class="jumbotron">
+	<h2>{{resources.base}}</h2>
+	<h4 ng-repeat-start="resource in resources.innerArray">Resource path :{{resource.path}}</h4>
+		<div ng-repeat="method in resource.methods">Http method :{{method.httpMethodName}}
+			<dl>
+				<dt ng-repeat-start="param in method.params">{{param.httpName}}</dt>
+				<dd ng-repeat-end>type : {{param.httpType}}, xmlNameSpace : {{xmlNamespaceSchema}}, style : {{param.httpStyle}}, default : {{param.default}}</dd>
+			</dl>
+		</div>
+	<div ng-repeat-end>{{resource.methods.length}}</div>
+</div>

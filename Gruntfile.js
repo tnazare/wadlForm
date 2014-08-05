@@ -377,7 +377,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
-      'karma:server'
+      'watch:livereload'
     ]);
   });
 
@@ -391,7 +391,7 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma:unit'
+    'karma:server'
   ]);
 
   grunt.registerTask('build', [
