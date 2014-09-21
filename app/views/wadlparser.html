@@ -1,18 +1,29 @@
-<form name="apiUrlForm" ngSubmit="submit()" novalidate role="form">
-	<label for="url">Enter API url :</label>
-	<input type="text" name="url"/>
- 	<input type="submit" id="submit" value="Submit" />
- 	{{urlBack}}
-</form>
 
-<div class="jumbotron">
-	<h2>{{resources.base}}</h2>
-	<h4 ng-repeat-start="resource in resources.innerArray">Resource path :{{resource.path}}</h4>
-		<div ng-repeat="method in resource.methods">Http method :{{method.httpMethodName}}
-			<dl>
-				<dt ng-repeat-start="param in method.params">{{param.httpName}}</dt>
-				<dd ng-repeat-end>type : {{param.httpType}}, xmlNameSpace : {{xmlNamespaceSchema}}, style : {{param.httpStyle}}, default : {{param.default}}</dd>
-			</dl>
-		</div>
-	<div ng-repeat-end>{{resource.methods.length}}</div>
+<div ng-controller="WadlParser">
+    <form name="apiUrlForm" novalidate >
+        <label for="url">Enter API url :</label>
+        <input type="text" name="url" id="url" ng-model="apiHttpUrl"/>
+        <button ng-click="onClick(apiHttpUrl,$event)">Load wadl</button>
+        {{urlBack}}
+    </form>
+
+    <div class="jumbotron" ng-model="resources">
+        <h2>{{resources.base}}</h2>
+        <form name="apiRequestForm" novalidate >
+            <select ng-model="selectedResource" ng-options="resource.path for resource in resources.innerArray"></select>
+            <fieldset>
+                <select ng-model="selectedMethod" ng-options="method.httpMethodName for method in selectedResource.methods"></select>
+                <dl>
+                    <div ng-repeat="param in selectedMethod.params">
+                    <dt>{{param.httpName}}</dt>
+                    <dd ng-if="isString(param)"><input type="text" name="{{param.httpName}} :"/></dd>
+                    <dd ng-if="isNumber(param)"><input type="number" name="{{param.httpName}} :"/></dd>
+                    <dd ng-if="isBoolean(param)"><input type="checkbox" name="{{param.httpName}} :"/></dd>
+
+                    </div>
+                </dl>
+
+            </fieldset>
+        </form>
+    </div>
 </div>
