@@ -38,10 +38,23 @@ angular.module('wadlFormApp')
         var resourcesXml = jQuery(xmlString).find('resource');
         var resources = {};
         resources.innerArray = [];
+        var resourcesXmlPoint = jQuery(xmlString).find('resources');
         resources.base = jQuery(xmlString).find('resources').attr('base');
         resourcesXml.each(function(){
-            resources.innerArray.push(this);
-        }); 
+          var parents = jQuery(this).parentsUntil(resourcesXmlPoint, "resource");
+          var children = jQuery(this).children("resource");
+          if(parents.length >= 0 ){
+            var currentResource = this;
+            if(children.length == 0){
+              var concatenatedUrl = '';
+              parents.each(function(){
+                concatenatedUrl += jQuery(this).attr('path') !== 'undefined' ? jQuery(this).attr('path') : "";
+              });
+              jQuery(currentResource).attr('path', concatenatedUrl + jQuery(currentResource).attr('path'));
+              resources.innerArray.push(currentResource);
+            }
+          }
+        });
         for (var i = 0; i < resources.innerArray.length; i++) {
             resources.innerArray[i].methods = [];
             resources.innerArray[i].path = jQuery(resources.innerArray[i]).attr('path');
@@ -94,6 +107,10 @@ angular.module('wadlFormApp')
                 return true;
             }
         }
+    };
+
+    $scope.extractParents = function(xmlDomElement){
+
     };
 
   });
