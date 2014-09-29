@@ -64,6 +64,7 @@ describe('WadlParser controller tests', function() {
       var resources = scope.parseWadl(wadlXmlAsStringWithNestedResourceAndQueryParams);
       expect(resources.innerArray.length).toBe(1);
       expect(resources.innerArray[0].queryParams.length).toBe(1);
+      expect(resources.innerArray[0].queryParams[0].httpName).toBe('id');
     });
 
   });

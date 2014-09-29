@@ -61,8 +61,15 @@ angular.module('wadlFormApp')
             resources.innerArray[i].path = jQuery(resources.innerArray[i]).attr('path');
             jQuery(resources.innerArray[i]).find('param').each(function(){
                 var currentParam = this;
-                if(jQuery(currentParam).parent("resource").length > 0)
-                    resources.innerArray[i].queryParams.push(this);
+                if(jQuery(currentParam).parent("resource").length > 0){
+                  var param = {};
+                  param.httpStyle = jQuery(currentParam).attr('style');
+                  param.httpType = jQuery(currentParam).attr('type');
+                  param.httpName = jQuery(currentParam).attr('name');
+                  param.httpDefault = jQuery(currentParam).attr('default');
+                  param.xmlNamespaceSchema = jQuery(currentParam).attr('xmlns:xs');
+                  resources.innerArray[i].queryParams.push(param);
+                }
             });
             jQuery(resources.innerArray[i]).find('method').each(function(){
                 resources.innerArray[i].methods.push(this);
