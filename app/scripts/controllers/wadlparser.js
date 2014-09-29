@@ -57,7 +57,13 @@ angular.module('wadlFormApp')
         });
         for (var i = 0; i < resources.innerArray.length; i++) {
             resources.innerArray[i].methods = [];
+            resources.innerArray[i].queryParams = [];
             resources.innerArray[i].path = jQuery(resources.innerArray[i]).attr('path');
+            jQuery(resources.innerArray[i]).find('param').each(function(){
+                var currentParam = this;
+                if(jQuery(currentParam).parent("resource").length > 0)
+                    resources.innerArray[i].queryParams.push(this);
+            });
             jQuery(resources.innerArray[i]).find('method').each(function(){
                 resources.innerArray[i].methods.push(this);
             }); 
