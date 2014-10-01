@@ -3,7 +3,7 @@
     <form name="apiUrlForm" novalidate >
         <label for="url">Enter API url :</label>
         <input type="text" name="url" id="url" ng-model="apiHttpUrl"/>
-        <button ng-click="onClick(apiHttpUrl,$event)">Load wadl</button>
+        <button ng-click="loadWadlOnClick(apiHttpUrl,$event)">Load wadl</button>
         {{urlBack}}
     </form>
 
@@ -16,9 +16,9 @@
 		          {{ resource.queryParams }}
 		            <div ng-repeat="queryparam in selectedResource.queryParams">
 			            <dt>{{queryparam.httpName}}</dt>
-			            <dd ng-if="isString(queryparam)"><input type="text" name="{{queryparam.httpName}} :"/></dd>
-			            <dd ng-if="isNumber(queryparam)"><input type="number" name="{{queryparam.httpName}} :"/></dd>
-			            <dd ng-if="isBoolean(queryparam)"><input type="checkbox" name="{{queryparam.httpName}} :"/></dd>
+			            <dd ng-if="isString(queryparam)"><input type="text" class="queryParams" name="{{queryparam.httpName}} :"/></dd>
+			            <dd ng-if="isNumber(queryparam)"><input type="number" class="queryParams" name="{{queryparam.httpName}} :"/></dd>
+			            <dd ng-if="isBoolean(queryparam)"><input type="checkbox" class="queryParams" name="{{queryparam.httpName}} :"/></dd>
 
 		            </div>
 	            </dl>
@@ -27,11 +27,14 @@
 	            <dl>
                     <div ng-repeat="param in selectedMethod.params">
                     <dt>{{param.httpName}}</dt>
-                    <dd ng-if="isString(param)"><input type="text" name="{{param.httpName}} :"/></dd>
-                    <dd ng-if="isNumber(param)"><input type="number" name="{{param.httpName}} :"/></dd>
-                    <dd ng-if="isBoolean(param)"><input type="checkbox" name="{{param.httpName}} :"/></dd>
+                    <dd ng-if="isString(param)"><input type="text" class="queryParams" name="{{param.httpName}} :"/></dd>
+                    <dd ng-if="isNumber(param)"><input type="number" class="queryParams" name="{{param.httpName}} :"/></dd>
+                    <dd ng-if="isBoolean(param)"><input type="checkbox" class="queryParams" name="{{param.httpName}} :"/></dd>
                     </div>
                 </dl>
+
+	         <button ng-click="launchRequestOnClick(resource.path)">Ok</button>
+	         {{ requestUrl }}
         </form>
     </div>
 </div>

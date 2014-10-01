@@ -20,7 +20,7 @@ describe('WadlParser controller tests', function() {
   
     it('should get Wadl xml from url and set xml as a string in wadlXmlAsString', function () {   
       httpBackend.expectGET('wadlFiles/application1.wadl');
-      scope.onClick('wadlFiles/application1.wadl', null);
+      scope.loadWadlOnClick('wadlFiles/application1.wadl', null);
       httpBackend.flush();  
       expect(scope.resources).not.toBe(null);
     });

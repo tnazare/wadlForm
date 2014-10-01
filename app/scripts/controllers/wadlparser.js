@@ -15,11 +15,12 @@ angular.module('wadlFormApp')
     $scope.resources = {};
     $scope.selectedResource = {};
     $scope.selectedMethod = {};
+    $scope.requestUrl = '';
     $scope.submit = function(){
         $scope.urlBack = 'It\'s working!!!!';
     };
 
-    $scope.onClick = function(url, event){
+    $scope.loadWadlOnClick = function(url, event){
       $scope.resources  = {};
       var httpResponsePromise = $http.get(url)
         .success(function(data,status,header,config) {
@@ -122,8 +123,8 @@ angular.module('wadlFormApp')
         }
     };
 
-    $scope.extractParents = function(xmlDomElement){
-
+    $scope.launchRequestOnClick = function(path){
+        $scope.requestUrl = $scope.resources.base + resource.path.replace()
     };
 
   });
