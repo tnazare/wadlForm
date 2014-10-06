@@ -1,40 +1,53 @@
 
-<div ng-controller="WadlParser">
-    <form name="apiUrlForm" novalidate >
+<div class="container" ng-controller="WadlParser">
+    <form class="row" name="apiUrlForm" role="form" novalidate >
         <label for="url">Enter API url :</label>
         <input type="text" name="url" id="url" ng-model="apiHttpUrl"/>
-        <button ng-click="loadWadlOnClick(apiHttpUrl,$event)">Load wadl</button>
-        {{urlBack}}
+        <button class="btn btn-success" ng-click="loadWadlOnClick(apiHttpUrl,$event)">Load wadl</button>
+        <!--{{urlBack}}-->
     </form>
 
-    <div class="jumbotron" ng-model="resources">
-        <h2>{{resources.base}}</h2>
-        <form name="apiRequestForm" novalidate >
-             <select ng-model="selectedResource" ng-options="resource.path for resource in resources.innerArray"></select>
-	          <h3>Url Parameters</h3>
-	          <dl>
-		          {{ resource.queryParams }}
-		            <div ng-repeat="queryparam in selectedResource.queryParams">
-			            <dt>{{queryparam.httpName}}</dt>
-			            <dd ng-if="isString(queryparam)"><input type="text" class="queryParams" name="{{queryparam.httpName}} :"/></dd>
-			            <dd ng-if="isNumber(queryparam)"><input type="number" class="queryParams" name="{{queryparam.httpName}} :"/></dd>
-			            <dd ng-if="isBoolean(queryparam)"><input type="checkbox" class="queryParams" name="{{queryparam.httpName}} :"/></dd>
+    <div class="container" ng-model="resources">
+        <form name="apiRequestForm" ng-show="resources.base" novalidate role="form" >
+            <fieldset>
+                <legend>URLs disponibles</legend>
+                <div class="form-group">
+                    <label for="resource">Resources disponibles sur : "{{ resources.base }}"</label>
+                    <select id="resource" class="form-control" ng-model="query.selectedResource" ng-options="resource.path for resource in resources.innerArray"></select>
+                </div>
+            </fieldset>
 
-		            </div>
-	            </dl>
-	         <select ng-model="selectedMethod" ng-options="method.httpMethodName for method in selectedResource.methods"></select>
-	         <h3>Form Parameters</h3>
-	            <dl>
-                    <div ng-repeat="param in selectedMethod.params">
-                    <dt>{{param.httpName}}</dt>
-                    <dd ng-if="isString(param)"><input type="text" class="queryParams" name="{{param.httpName}} :"/></dd>
-                    <dd ng-if="isNumber(param)"><input type="number" class="queryParams" name="{{param.httpName}} :"/></dd>
-                    <dd ng-if="isBoolean(param)"><input type="checkbox" class="queryParams" name="{{param.httpName}} :"/></dd>
-                    </div>
-                </dl>
+            <fieldset ng-show="query.selectedResource && query.selectedResource.queryParams.length != 0">
+                <legend>URL Parameters</legend>
+                <div class="form-group" ng-repeat="queryparam in query.selectedResource.queryParams">
+                    <label for="parameter_{{ queryparam.httpName }}" class="col-sm-3 control-label" >{{ queryparam.httpName }}</label>
+                    <input ng-if="isString(queryparam)" type="text" class="queryParams" name="{{queryparam.httpName}} :" id="parameter_{{ queryparam.httpName }}"/>
+                    <input ng-if="isNumber(queryparam)" type="number" class="queryParams" name="{{queryparam.httpName}} :" id="parameter_{{ queryparam.httpName }}"/>
+                    <input ng-if="isBoolean(queryparam)" type="checkbox" class="queryParams" name="{{queryparam.httpName}} :" id="parameter_{{ queryparam.httpName }}"/>
+                </div>
 
-	         <button ng-click="launchRequestOnClick(resource.path)">Ok</button>
-	         {{ requestUrl }}
+                <!--<select ng-if="selectedResourceHasMethods()" ng-model="query.selectedMethod" ng-options="method.httpMethodName for method in query.selectedResource.methods"></select>-->
+            </fieldset>
+
+            <fieldset ng-show="query.selectedResource.methods">
+                <legend>Méthode HTTP à utiliser</legend>
+                <div class="form-group">
+                    <label for="method" class="col-sm-2 control-label" >Verbe : </label>
+                    <select id="method" ng-model="query.selectedMethod" ng-options="method.httpMethodName for method in query.selectedResource.methods"></select>
+                </div>
+            </fieldset>
+            <fieldset ng-show="query.selectedMethod && query.selectedMethod.params.length != 0">
+                <legend>Query Parameters</legend>
+                <!--<h3 ng-if="selectedResourceHasFormParams()">Form Parameters</h3>-->
+                <div class="form-group" ng-repeat="param in query.selectedMethod.params">
+                    <label for="form_parameter_{{ param.httpName }}" class="col-sm-3 control-label" >{{ param.httpName }}</label>
+                    <input ng-if="isString(param)" type="text" name="{{param.httpName}} :" id="form_parameter_{{ param.httpName }}"/>
+                    <input ng-if="isNumber(param)" type="number"  name="{{param.httpName}} :" id="form_parameter_{{ param.httpName }}"/>
+                    <input ng-if="isBoolean(param)" type="checkbox" name="{{param.httpName}} :" id="form_parameter_{{ param.httpName }}"/>
+                </div>
+            </fieldset>
+
+            <button class="btn btn-success" ng-click="launchRequestOnClick(resource.path)">Balance la sauce !</button>
         </form>
     </div>
 </div>

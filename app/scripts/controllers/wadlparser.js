@@ -13,8 +13,6 @@ angular.module('wadlFormApp')
     $scope.booleansTypes = ['xs:boolean'];
 
     $scope.resources = {};
-    $scope.selectedResource = {};
-    $scope.selectedMethod = {};
     $scope.requestUrl = '';
     $scope.submit = function(){
         $scope.urlBack = 'It\'s working!!!!';
@@ -26,7 +24,7 @@ angular.module('wadlFormApp')
         .success(function(data,status,header,config) {
             $scope.urlBack = 'loading wadl...';
             $scope.resources = $scope.parseWadl(data);
-            $scope.urlBack = 'wadl loaded';    
+            $scope.urlBack = 'wadl loaded';
         })
         .error(function(data,status,header,config) {
             $scope.urlBack = 'Error';
@@ -34,6 +32,9 @@ angular.module('wadlFormApp')
         
     };
 
+    $scope.updateFormDataBindings = function(){
+        $scope.$apply();
+    }
 
     $scope.parseWadl = function(xmlString){
         var resourcesXml = jQuery(xmlString).find('resource');
@@ -126,5 +127,33 @@ angular.module('wadlFormApp')
     $scope.launchRequestOnClick = function(path){
         $scope.requestUrl = $scope.resources.base + resource.path.replace()
     };
+
+    $scope.resourcesAreNotEmpty = function(){
+        console.log("passe dans selectedResourceHasMethods = ");
+        return typeof $scope.resources !== "undefined"
+               && typeof $scope.resources.innerArray !== "undefined"
+               && $scope.resources.innerArray.length > 0;
+    }
+
+    $scope.selectedResourceHasMethods = function(){
+        console.log("passe dans selectedResourceHasMethods = ");
+        return typeof $scope.query.selectedResource !== "undefined"
+               && typeof $scope.query.selectedResource.methods !== "undefined"
+               && typeof $scope.query.selectedResource.methods.length > 0;
+    }
+
+    $scope.selectedResourceHasQueryParams = function(){
+        console.log("passe dans selectedResourceHasQueryParams = ");
+        return typeof $scope.query.selectedResource !== "undefined"
+               && typeof $scope.query.selectedResource.queryParams !== "undefined"
+               && typeof $scope.query.selectedResource.queryParams.length > 0;
+    }
+
+    $scope.selectedResourceHasFormParams = function(){
+        console.log("passe dans selectedResourceHasFormParams = ");
+        return typeof $scope.query.selectedResource !== "undefined"
+               && typeof $scope.query.selectedResource.params !== "undefined"
+               && typeof $scope.query.selectedResource.params.length > 0;
+    }
 
   });
