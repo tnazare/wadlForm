@@ -20,13 +20,12 @@
             <fieldset ng-show="query.selectedResource && query.selectedResource.queryParams.length != 0">
                 <legend>URL Parameters</legend>
                 <div class="form-group" ng-repeat="queryparam in query.selectedResource.queryParams">
-                    <label for="parameter_{{ queryparam.httpName }}" class="col-sm-3 control-label" >{{ queryparam.httpName }}</label>
-                    <input ng-if="isString(queryparam)" type="text" class="queryParams" name="{{queryparam.httpName}} :" id="parameter_{{ queryparam.httpName }}"/>
-                    <input ng-if="isNumber(queryparam)" type="number" class="queryParams" name="{{queryparam.httpName}} :" id="parameter_{{ queryparam.httpName }}"/>
-                    <input ng-if="isBoolean(queryparam)" type="checkbox" class="queryParams" name="{{queryparam.httpName}} :" id="parameter_{{ queryparam.httpName }}"/>
+                    <label for="{{identifyResourcePath(query.selectedResource.path)}}_queryparameter_{{ queryparam.httpName }}" class="col-sm-3 control-label" >{{ queryparam.httpName }}</label>
+                    <input ng-if="isString(queryparam)" type="text" class="queryParams" name="{{queryparam.httpName}} :" id="{{identifyResourcePath(query.selectedResource.path)}}_queryparameter_{{ queryparam.httpName }}" ng-model="formSubmittedData.queryParams[queryparam.httpName]"/>
+                    <input ng-if="isNumber(queryparam)" type="number" class="queryParams" name="{{queryparam.httpName}} :" id="{{identifyResourcePath(query.selectedResource.path)}}_queryparameter_{{ queryparam.httpName }}" ng-model="formSubmittedData.queryParams[queryparam.httpName]"/>
+                    <input ng-if="isBoolean(queryparam)" type="checkbox" class="queryParams" name="{{queryparam.httpName}} :" id="{{identifyResourcePath(query.selectedResource.path)}}_queryparameter_{{ queryparam.httpName }}" ng-model="formSubmittedData.queryParams[queryparam.httpName]"/>
                 </div>
 
-                <!--<select ng-if="selectedResourceHasMethods()" ng-model="query.selectedMethod" ng-options="method.httpMethodName for method in query.selectedResource.methods"></select>-->
             </fieldset>
 
             <fieldset ng-show="query.selectedResource.methods">
@@ -38,16 +37,20 @@
             </fieldset>
             <fieldset ng-show="query.selectedMethod && query.selectedMethod.params.length != 0">
                 <legend>Query Parameters</legend>
-                <!--<h3 ng-if="selectedResourceHasFormParams()">Form Parameters</h3>-->
                 <div class="form-group" ng-repeat="param in query.selectedMethod.params">
-                    <label for="form_parameter_{{ param.httpName }}" class="col-sm-3 control-label" >{{ param.httpName }}</label>
-                    <input ng-if="isString(param)" type="text" name="{{param.httpName}} :" id="form_parameter_{{ param.httpName }}"/>
-                    <input ng-if="isNumber(param)" type="number"  name="{{param.httpName}} :" id="form_parameter_{{ param.httpName }}"/>
-                    <input ng-if="isBoolean(param)" type="checkbox" name="{{param.httpName}} :" id="form_parameter_{{ param.httpName }}"/>
+                    <label for="{{identifyResourcePath(query.selectedResource.path)}}_form_parameter_{{ param.httpName }}" class="col-sm-3 control-label" >{{ param.httpName }}</label>
+                    <input ng-if="isString(param)" type="text" name="{{param.httpName}} :" id="{{identifyResourcePath(query.selectedResource.path)}}_form_parameter_{{ param.httpName }}" ng-model="formSubmittedData.formParams[param.httpName]"/>
+                    <input ng-if="isNumber(param)" type="number"  name="{{param.httpName}} :" id="{{identifyResourcePath(query.selectedResource.path)}}_form_parameter_{{ param.httpName }}" ng-model="formSubmittedData.formParams[param.httpName]"/>
+                    <input ng-if="isBoolean(param)" type="checkbox" name="{{param.httpName}} :" id="{{identifyResourcePath(query.selectedResource.path)}}_form_parameter_{{ param.httpName }}" ng-model="formSubmittedData.formParams[param.httpName]"/>
                 </div>
             </fieldset>
 
-            <button class="btn btn-success" ng-click="launchRequestOnClick(resource.path)">Balance la sauce !</button>
+            <button class="btn btn-success" ng-click="launchRequestOnClick()">Balance la sauce !</button>
         </form>
+
+        <div class="row">
+            <p><pre class="prettyprint pre-scrollable" ng-show="responseXml">{{responseXml}}</pre></p>
+
+        </div>
     </div>
 </div>
