@@ -12,6 +12,7 @@ angular.module('wadlFormApp')
     $scope.stringsTypes = ['xs:string'];
     $scope.booleansTypes = ['xs:boolean'];
     $scope.vidalAuthorization = {"app_id": "1d52aa19","app_key": "7a48a592e71a93c08bfc1dd684816758"};
+    $scope.jerseyApiPattern = "/api-docs";
 
     $scope.resources = {};
     $scope.requestUrl = '';
@@ -43,10 +44,11 @@ angular.module('wadlFormApp')
         resources.base = jQuery(xmlString).find('resources').attr('base');
         resourcesXml.each(function(){
           var parents = jQuery(this).parentsUntil(resourcesXmlPoint, "resource");
-          var children = jQuery(this).children("resource");
+          var childrenResources = jQuery(this).children("resource");
+          var childrenMethods = jQuery(this).children("method");
           if(parents.length >= 0 ){
             var currentResource = this;
-            if(children.length == 0){
+            if(childrenResources.length == 0 || childrenMethods.length > 0){
               var concatenatedUrl = '';
               parents.each(function(){
                 concatenatedUrl += jQuery(this).attr('path') !== 'undefined' ? jQuery(this).attr('path') : "";
@@ -56,10 +58,39 @@ angular.module('wadlFormApp')
             }
           }
         });
+        resources.innerArray = resources.innerArray.sort(
+            function (a,b){
+                var result = 0;
+                var aPath = jQuery(a).attr('path');
+                var bPath = jQuery(b).attr('path');
+                if( aPath > bPath)
+                    result = 1;
+                if( bPath > aPath)
+                    result = -1;
+                return result;
+            });
+        var finished = false;
+        var index = 0;
+        while(!finished){
+            var path = jQuery(resources.innerArray[index]).attr('path');
+            // Filtering jersey paths
+            if(typeof path !== "undefined" && path.indexOf($scope.jerseyApiPattern) != -1){
+                resources.innerArray.splice(index,1);
+            }
+            index++;
+            if(index >= resources.innerArray.length ){
+                finished = true;
+            }
+        }
         for (var i = 0; i < resources.innerArray.length; i++) {
+            var path = jQuery(resources.innerArray[i]).attr('path');
+            // Filtering jersy paths
+            if(path.indexOf($scope.jerseyApiPattern) != -1){
+                continue;
+            }
             resources.innerArray[i].methods = [];
             resources.innerArray[i].queryParams = [];
-            resources.innerArray[i].path = jQuery(resources.innerArray[i]).attr('path');
+            resources.innerArray[i].path = path;
             jQuery(resources.innerArray[i]).find('param').each(function(){
                 var currentParam = this;
                 if(jQuery(currentParam).parent("resource").length > 0){
@@ -72,12 +103,13 @@ angular.module('wadlFormApp')
                   resources.innerArray[i].queryParams.push(param);
                 }
             });
-            jQuery(resources.innerArray[i]).find('method').each(function(){
+            jQuery(resources.innerArray[i]).children('method').each(function(){
                 resources.innerArray[i].methods.push(this);
             });
             for (var j = 0; j < resources.innerArray[i].methods.length; j++) {
                 resources.innerArray[i].methods[j].params = [];
                 resources.innerArray[i].methods[j].httpMethodName = jQuery(resources.innerArray[i].methods[j]).attr('name');
+                resources.innerArray[i].methods[j].httpId = jQuery(resources.innerArray[i].methods[j]).attr('id');
                 jQuery(resources.innerArray[i].methods[j]).find('param').each(function(){
                     var param = {};
                     param.httpStyle = jQuery(this).attr('style');
@@ -93,20 +125,24 @@ angular.module('wadlFormApp')
     };
 
     $scope.launchRequestOnClick = function(){
+
         $scope.formSubmittedData.path = $scope.resources.base + $scope.inlineFormParamsInGetRequestPath($scope.inlineUrlParamsInRequestPath($scope.query.selectedResource.path,$scope.formSubmittedData.queryParams),$scope.formSubmittedData.formParams);
         $scope.formSubmittedData.verb = $scope.query.selectedMethod.httpMethodName;
 
         $scope.formSubmittedData.path = $scope.inlineFormParamsInGetRequestPath($scope.formSubmittedData.path,$scope.vidalAuthorization);
-        var httpResponsePromise = $http.get($scope.formSubmittedData.path)
+        if($scope.formSubmittedData.verb == "GET"){
+            var httpResponsePromise = $http.get($scope.formSubmittedData.path)
                 .success(function(data,status,header,config) {
                     $scope.responseXml = data;
                 })
                 .error(function(data,status,header,config) {
                     console.error("status = "+status);
                 });
-
-        console.log($scope.formSubmittedData);
-
+        }
+        $http({
+        url: $scope.formSubmittedData.path,
+        method: $scope.formSubmittedData.verb
+        });
     };
 
     $scope.inlineUrlParamsInRequestPath = function(path, queryParams){

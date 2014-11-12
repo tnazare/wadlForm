@@ -1,0 +1,1497 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+    <doc xmlns:jersey="http://jersey.java.net/" jersey:generatedBy="Jersey: 1.13 06/29/2012 05:14 PM"/>
+    <grammars>
+        <include href="application.wadl/xsd0.xsd">
+            <doc xml:lang="en" title="Generated"/>
+        </include>
+    </grammars>
+    <resources base="http://dev-software.vidal.net/excalibur-rest-snapshot/rest/">
+        <resource path="/pmsi/scored-indication-groups">
+            <method name="GET" id="computeScores">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="codes"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="productId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="vmpId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="packId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="ucdId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="pathologies"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="selectedId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="10" type="xs:int" style="query" name="scoreBalancing"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="LOW" type="xs:string" style="query" name="rejectNoise"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="25" type="xs:int" style="query" name="discriminantCursor"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="30" type="xs:int" style="query" name="depreciationRate"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="verbose"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <method name="POST" id="computeScores">
+                <request>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" mediaType="text/xml" element="request"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="imd/cladimed">
+            <resource path="/all">
+                <method name="GET" id="getAll">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getCladimedById">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getDmiProductsByCladimedId">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="limit"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="filterOnlyCatalogue"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/company/{id}">
+            <resource path="/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProductsByCompany">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/packages">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchPackagesByCompany">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/pathologies">
+            <method name="GET" id="searchPathologies">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="imd/lppr">
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getLpprById">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getImdProductsByLpprId">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="filterOnlyCatalogue"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/foreign-product/{id}">
+            <resource path="/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getFrenchEquivalentProductsByForeignProductId">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="true" type="xs:boolean" style="query" name="sameRoutes"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="sameForm"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/package/{id}/package-conservation"/>
+        <resource path="userdata/in-formulary">
+            <resource path="/{category}/{entityIds}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="category"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="entityIds"/>
+                <method name="POST" id="flagInFormulary">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+                <method name="DELETE" id="removeFlags">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/products">
+                <method name="GET" id="getProductsInFormulary">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="1" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="25" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/vmps">
+                <method name="GET" id="getVmpsInFormulary">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="1" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="25" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/cim10/{id}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+            <method name="GET" id="getCim10ById">
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="imd/products">
+            <method name="GET" id="fullTextSearch">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="limit"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="filterOnlyCatalogue"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="imd/package">
+            <resource path="/{code}/cladimed">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="code"/>
+                <method name="GET" id="getDmiCladimed">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{code}/lppr">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="code"/>
+                <method name="GET" id="getDmiLpprs">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{code}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="code"/>
+                <method name="GET" id="getDmiPackageById">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{code}/product">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="code"/>
+                <method name="GET" id="getDmiProductByPackageId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{code}/company">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="code"/>
+                <method name="GET" id="getCompanyByPackageId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="userdata/document/{category}/{entityId}/{annId}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="annId"/>
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="category"/>
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="entityId"/>
+            <method name="GET" id="getAnnotation">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <method name="DELETE" id="deleteAnnotation">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="userdata/with-formulary">
+            <resource path="/product/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProductById">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/indication/{id}/vmps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchVmpsByIndicationId">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/products">
+                <method name="GET" id="searchProductsByName">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/atc-classification/{id}/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProductsByAtc">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/molecule/active-substance/{id}/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProductsByMolecule">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="association-type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/vmp/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchCngById">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/vmps">
+                <method name="GET" id="searchCngsByName">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/atc-classification/{id}/vmps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchCngsByAtc">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/molecule/active-substance/{id}/vmps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchCngsByMolecule">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="association-type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/indication-group/{id}/vmps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchVmpsByIndicationGroupId">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/api-docs">
+            <method name="GET" id="resourceListing">
+                <response>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <resource path="/{route: .+}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="route"/>
+                <method name="GET" id="apiDeclaration">
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="imd/packages">
+            <method name="GET" id="fullTextSearch">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="filterOnlyCatalogue"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/indication/{id}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+            <method name="GET" id="searchByIndicationId">
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProductsByIndicationId">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/vmps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchVmpsByIndicationId">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/foreign-products">
+            <method name="GET" id="searchByName">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="country"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/molecules">
+            <method name="GET" id="searchMolecules">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="startwith"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="role"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/active-substances">
+                <method name="GET" id="searchActiveSubstancesByName">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/pmsi">
+            <resource path="/text-analysis">
+                <method name="POST" id="analyseText">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="postControl">
+                <method name="GET" id="getPostControl">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="codes"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="productId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="vmpId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="packId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="ucdId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="text"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="codesToControl"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="VIDAL" type="xs:string" style="query" name="engine"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="DEFAULT" type="xs:string" style="query" name="drugCursor"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+                <method name="POST" id="getPostControl">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" mediaType="text/xml" element="request"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="postComplement">
+                <method name="GET" id="getPostComplement">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="codes"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="productId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="vmpId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="packId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="ucdId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="text"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="codesToControl"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="VIDAL" type="xs:string" style="query" name="engine"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="DEFAULT" type="xs:string" style="query" name="drugCursor"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+                <method name="POST" id="getPostComplement">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" mediaType="text/xml" element="request"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/molecule/active-substance/{id}">
+            <resource path="/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProducts">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="association-type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/vmps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchVmps">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="association-type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/packages">
+            <method name="GET" id="searchPacks">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="onFreeAccess"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/saumon">
+            <resource path="/all">
+                <method name="GET" id="getClassification">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/children">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchChildren">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getSaumonClassificationById">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/packages">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchPacksBySaumon">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/products">
+            <method name="GET" id="searchProducts">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="startwith"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/form-color">
+                <method name="GET" id="searchProductsByGalenicFormColorsAndClass">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="form"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="color"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="vidal-class-id"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/package/{id}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+            <method name="GET" id="getPack">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/lppr">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getLpprByPackId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/documents/opt">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getOptDocumentByPackId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/documents">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getDrugDocumentsByPackId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/saumon-classification">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getSaumonByPackId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/atc-classification">
+            <resource path="/{id}/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProducts">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/all">
+                <method name="GET" id="getClassification">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/molecules">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchMolecules">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/vmps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchVmps">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/children">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchChildren">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getAtcClassificationById">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/generic-group/{genericGroupId}">
+            <resource path="/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="genericGroupId"/>
+                <method name="GET" id="searchProductsByGenericGroup">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/companies">
+            <method name="GET" id="searchCompanies">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="startwith"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/indications">
+            <method name="GET" id="searchByName">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/product/{id}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+            <method name="GET" id="getProductById">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/vidal-classification">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getClassificationByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/molecules/active-excipients">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getActiveExcipientsByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/indications">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getIndicationsByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/atc-classification">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getActClassificationByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/molecules">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getMoleculesByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/ald">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getAldsByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/foreign-products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getForeignProducts">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="true" type="xs:boolean" style="query" name="sameRoutes"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="sameForm"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="countryCode"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/smr-asmr">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getSmrsByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/smr-asmr.htm">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getSmrHtmlByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/packages">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getPackagesByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/documents/opt">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getOptDocumentByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/documents">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getDrugDocumentsByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/generic-groups">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getGenericsByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/recos">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getRecosByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/vmps">
+            <method name="GET" id="searchCommonNameGroups">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/coding-support">
+            <method name="GET" id="searchIndicationGroupsByNameAndAggregateCim10s">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="1" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="25" type="xs:int" style="query" name="page-size"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/indication-group/{id}">
+            <resource path="/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProductsByIndicationGroup">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/vmps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchCommonNameGroupByIndicationGroup">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/packages">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchPacksByIndicationGroup">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/cim10s">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getCim10sByIndicationGroupId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/recos">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getRecosByIndicationGroupId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/search">
+            <method name="GET" id="search">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="startwith"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="filter"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="code"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/reco/{id}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+            <method name="GET" id="getReco">
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/toc">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getRecoToc">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="imd/product">
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getProductDmiById">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="filterOnlyCatalogue"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/packages">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getDmisByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/companies">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getCompaniesByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/cladimed">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getDmiCladimed">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/lppr">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getDmiLpprs">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/alerts">
+            <method name="GET" id="getSimpleAlerts">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="productId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="vmpId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="packId"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <method name="POST" id="getAlertsWithPatient">
+                <request>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" mediaType="text/xml" element="prescription"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/interactions">
+                <method name="GET" id="getInteractions">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="productId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="vmpId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="packId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="drugCode"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/product-range/{id}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+            <method name="GET" id="getProductRangeById">
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getProductsByProductRangeId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/packages">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getPacksByProductRangeId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/allergies">
+            <method name="GET" id="searchClassification">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/molecule/{id}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+            <method name="GET" id="getMoleculeById">
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/recos">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getRecosByMoleculeId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/atc-classifications">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getAtcClassesByMoleculeId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="imd/company">
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getDmiCompanyById">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getDmiProductsByCompanyId">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="false" type="xs:boolean" style="query" name="filterOnlyCatalogue"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="imd/companies">
+            <method name="GET" id="fullTextSearch">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="userdata/documents">
+            <method name="GET" id="getAnnotationsFor">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/{category}/{entityId}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="category"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="entityId"/>
+                <method name="GET" id="getAnnotations">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+                <method name="POST" id="postAnnotation">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="header" name="Authorization"/>
+                        <representation mediaType="application/x-www-form-urlencoded">
+                            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="url"/>
+                            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="title"/>
+                            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="content"/>
+                            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="type"/>
+                        </representation>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/atc-classifications">
+            <method name="GET" id="searchClassification">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/vmp/{id}">
+            <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+            <method name="GET" id="getCommonNameGroupById">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/documents/opt">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getOptDocumentByProductId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProductsByCommonNameGroup">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="aggregate"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/molecules">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getMoleculesByCommonNameGroup">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/atc-classification">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getActClassificationByVmpId">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="news">
+            <method name="GET" id="search">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="typeId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="subTypeId"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="profile"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="30" type="xs:int" style="query" name="limit"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:boolean" style="query" name="withContent"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/{dd}..{df}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="dd"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="df"/>
+                <method name="GET" id="search">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="typeId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="subTypeId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="profile"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="30" type="xs:int" style="query" name="limit"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:boolean" style="query" name="withContent"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{dd}..">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="template" name="dd"/>
+                <method name="GET" id="search">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="typeId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="subTypeId"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="profile"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" default="30" type="xs:int" style="query" name="limit"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:boolean" style="query" name="withContent"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:long" style="template" name="id"/>
+                <method name="GET" id="getNewsById">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/molecule/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:long" style="template" name="id"/>
+                <method name="GET" id="getMoleculeNews">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:boolean" style="query" name="withContent"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/product/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:long" style="template" name="id"/>
+                <method name="GET" id="getProductNews">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:boolean" style="query" name="withContent"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:long" style="template" name="id"/>
+                <method name="GET" id="getRelatedProducts">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/recos">
+            <method name="GET" id="searchRecos">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+            <resource path="/all">
+                <method name="GET" id="getAllRecos">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="api/product-ranges">
+            <method name="GET" id="searchByName">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="q"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                </request>
+                <response>
+                    <representation mediaType="application/atom+xml"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="api/vidal-classification">
+            <resource path="/all">
+                <method name="GET" id="getClassification">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="getClassificationById">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/products">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchProductsByVidalClass">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" style="query" name="status"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="start-page"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="query" name="page-size"/>
+                    </request>
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{id}/children">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" style="template" name="id"/>
+                <method name="GET" id="searchChildren">
+                    <response>
+                        <representation mediaType="application/atom+xml"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+    </resources>
+</application>
