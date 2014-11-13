@@ -12,7 +12,7 @@ angular.module('wadlFormApp')
     $scope.stringsTypes = ['xs:string'];
     $scope.booleansTypes = ['xs:boolean'];
     $scope.vidalAuthorization = {"app_id": "1d52aa19","app_key": "7a48a592e71a93c08bfc1dd684816758"};
-    $scope.jerseyApiPattern = "/api-docs";
+    $scope.jerseyApiPattern = "api-docs";
 
     $scope.resources = {};
     $scope.requestUrl = '';
@@ -74,10 +74,12 @@ angular.module('wadlFormApp')
         while(!finished){
             var path = jQuery(resources.innerArray[index]).attr('path');
             // Filtering jersey paths
-            if(typeof path !== "undefined" && path.indexOf($scope.jerseyApiPattern) != -1){
-                resources.innerArray.splice(index,1);
+            if(typeof path === "undefined" || typeof path !== "undefined" && ( path.length == 0 || path.indexOf($scope.jerseyApiPattern) != -1)){
+                resources.innerArray.splice(index, 1);
             }
-            index++;
+            else{
+                index++;
+            }
             if(index >= resources.innerArray.length ){
                 finished = true;
             }
