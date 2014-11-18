@@ -15,6 +15,7 @@ angular.module('wadlFormApp')
     $scope.jerseyApiPattern = "api-docs";
 
     $scope.resources = {};
+    $scope.responseFeed = {};
     $scope.requestUrl = '';
     $scope.submit = function(){
         $scope.urlBack = 'It\'s working!!!!';
@@ -242,5 +243,61 @@ angular.module('wadlFormApp')
         return path.replace("\/",'_').replace("{","__").replace("}","__");
     };
 
+    $scope.parseXmlToJson = function(response){
+        return $scope.extractFeed(response);
+    };
 
+    $scope.extractFeed = function(xml){
+        var feed = {};
+        feed.title = jQuery(xml).children('title').text();
+        feed.id = jQuery(xml).children('id').text();
+        feed.updated = jQuery(xml).children('updated').text();
+        feed.dcDate = jQuery(xml).children('dc\\:date').text();
+        feed.opensearch = {};
+        feed.opensearch.itemsPerPage = jQuery(xml).children('opensearch\\:itemsPerPage').text();
+        feed.opensearch.totalResults = jQuery(xml).children('opensearch\\:totalResults').text();
+        feed.opensearch.startIndex = jQuery(xml).children('opensearch\\:startIndex').text();
+        feed.links = [];
+        jQuery(xml).children('link').each(function(){
+            feed.links.push($scope.extractLink(this));
+        });
+        feed.entries = [];
+        jQuery(xml).children('entry').each(function(){
+            feed.entries.push($scope.extractEntry(this));
+        });
+        return feed;
+    };
+
+    $scope.extractEntry = function(xml){
+        var entry = {};
+        entry.title = jQuery(xml).children('title').text();
+        entry.links = [];
+        jQuery(xml).children('link').each(function(){
+            entry.links.push($scope.extractLink(this));
+        });
+        return entry;
+    };
+
+    $scope.extractLink = function(xml){
+        var link = {};
+        link.rel = jQuery(xml).attr("rel");
+        link.type = jQuery(xml).attr("type");
+        link.href = jQuery(xml).attr("href");
+        return link;
+    };
+
+    $scope.extractLinkRefacto = function(xml){
+        console.log("input = "+xml);
+        var link = {};
+        var attributes = xml.attr("*");
+        for (var attribute in attributes){
+            console.log("xmlLink['"+attribute+"' = "+xml[xmlLink]);
+        }
+        console.log(attributes);
+        attributes.each(function(index, element) {
+                link[name] = value;
+            });
+        console.log(link);
+        return link;
+    };
   });

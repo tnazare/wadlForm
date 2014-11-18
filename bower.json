@@ -13,12 +13,14 @@
     "angular-touch": "1.2.16",
     "angular-route": "1.2.16",
     "angular-smoothscroll": "1.1.1",
-    "express": "~4.9.x",
-    "angular-x2js": "~0.1.1"
+    "express": "~4.9.x"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",
     "angular-scenario": "1.2.16"
   },
-  "appPath": "app"
+  "appPath": "app",
+  "resolutions": {
+    "es5-shim": "~3.1.0"
+  }
 }

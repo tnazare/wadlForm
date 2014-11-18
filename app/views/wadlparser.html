@@ -1,10 +1,13 @@
 
-<div class="container" ng-controller="WadlParser">
-    <form class="row" name="apiUrlForm" role="form" novalidate >
-        <label for="url">Enter API url :</label>
-        <input type="text" name="url" id="url" ng-model="apiHttpUrl"/>
-        <button class="btn btn-success" ng-click="loadWadlOnClick(apiHttpUrl,$event)">Load wadl</button>
-        <!--{{urlBack}}-->
+<div class="container-fluid" ng-controller="WadlParser">
+    <form name="apiUrlForm" role="form" novalidate >
+        <div class="row">
+          <fieldset>
+              <label for="url">Enter API url :</label>
+              <input type="text" name="url" id="url" ng-model="apiHttpUrl"/>
+              <button class="btn btn-success" ng-click="loadWadlOnClick(apiHttpUrl,$event)">Load wadl</button>
+          </fieldset>
+        </div>
     </form>
 
     <div class="container-fluid" ng-model="resources">
