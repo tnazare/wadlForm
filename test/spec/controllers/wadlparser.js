@@ -131,7 +131,7 @@ describe('WadlParser controller tests', function() {
     });
 
     it('should parse xml response and extract feed infos' , function () {
-        var response = '<?xml version="1.0" encoding="UTF-8"?> <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:vidal="http://api.vidal.net/-/spec/vidal-api/1.0/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/"> <title>Search Products - Query :bedel</title> <link rel="self" type="application/atom+xml" href="/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25" /> <id>/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25</id> <updated>2014-09-17T22:00:00Z</updated> <dc:date>2014-09-17T22:00:00Z</dc:date> <opensearch:itemsPerPage>25</opensearch:itemsPerPage> <opensearch:totalResults>1</opensearch:totalResults> <opensearch:startIndex>1</opensearch:startIndex> <entry> <title>BEDELIX 3 g pdre p susp buv</title> <link rel="alternate" type="application/atom+xml" href="/rest/api/product/1971" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/packages" title="PACKAGES" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents/opt" title="OPT_DOCUMENT" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents" title="DOCUMENTS" /> <link rel="related" type="application/atom+xml" href="/rest/api/vmp/8028" title="VMP" /> <category term="PRODUCT" /> <author> <name>VIDAL</name> </author> <id>vidal://product/1971</id> <updated>2014-09-17T22:00:00Z</updated> <summary type="text">BEDELIX 3 g pdre p susp buv</summary> <vidal:id>1971</vidal:id> <vidal:dispensationPlace name="PHARMACY">PHARMACY</vidal:dispensationPlace> <vidal:activePrinciples>montmorillonite beidellitique</vidal:activePrinciples> <vidal:horsGHS>false</vidal:horsGHS> <vidal:refundRate name="NR">NR</vidal:refundRate> <vidal:itemType name="VIDAL">VIDAL</vidal:itemType> <vidal:marketStatus name="AVAILABLE">Commercialisé</vidal:marketStatus> <vidal:company type="OWNER" vidalId="2908">Ipsen Pharma</vidal:company> <vidal:drugInSport>false</vidal:drugInSport> <vidal:exceptional>false</vidal:exceptional> <vidal:retrocession>false</vidal:retrocession> <vidal:beCareful>false</vidal:beCareful> <vidal:midwife>true</vidal:midwife> <vidal:perVolume>3g</vidal:perVolume> <vidal:hasPublishedDoc>true</vidal:hasPublishedDoc> <vidal:onMarketDate format="yyyy-MM-dd">1980-03-15</vidal:onMarketDate> <vidal:withoutPrescription>true</vidal:withoutPrescription> <vidal:vmp vidalId="8028">montmorillonite beidellitique * 3 g ; voie orale + voie rectale ; pdre p susp buv/rect</vidal:vmp> </entry> </feed>';
+        var response = '<?xml version="1.0" encoding="UTF-8"?> <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:vidal="http://api.vidal.net/-/spec/vidal-api/1.0/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/"> <title>Search Products - Query :bedel</title> <link rel="self" type="application/atom+xml" href="/rest/api/products?q=bedel&start-page=1&page-size=25" /> <id>/rest/api/products?q=bedel&start-page=1&page-size=25</id> <updated>2014-09-17T22:00:00Z</updated> <dc:date>2014-09-17T22:00:00Z</dc:date> <opensearch:itemsPerPage>25</opensearch:itemsPerPage> <opensearch:totalResults>1</opensearch:totalResults> <opensearch:startIndex>1</opensearch:startIndex> <entry> <title>BEDELIX 3 g pdre p susp buv</title> <link rel="alternate" type="application/atom+xml" href="/rest/api/product/1971" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/packages" title="PACKAGES" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents/opt" title="OPT_DOCUMENT" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents" title="DOCUMENTS" /> <link rel="related" type="application/atom+xml" href="/rest/api/vmp/8028" title="VMP" /> <category term="PRODUCT" /> <author> <name>VIDAL</name> </author> <id>vidal://product/1971</id> <updated>2014-09-17T22:00:00Z</updated> <summary type="text">BEDELIX 3 g pdre p susp buv</summary> <vidal:id>1971</vidal:id> <vidal:dispensationPlace name="PHARMACY">PHARMACY</vidal:dispensationPlace> <vidal:activePrinciples>montmorillonite beidellitique</vidal:activePrinciples> <vidal:horsGHS>false</vidal:horsGHS> <vidal:refundRate name="NR">NR</vidal:refundRate> <vidal:itemType name="VIDAL">VIDAL</vidal:itemType> <vidal:marketStatus name="AVAILABLE">Commercialisé</vidal:marketStatus> <vidal:company type="OWNER" vidalId="2908">Ipsen Pharma</vidal:company> <vidal:drugInSport>false</vidal:drugInSport> <vidal:exceptional>false</vidal:exceptional> <vidal:retrocession>false</vidal:retrocession> <vidal:beCareful>false</vidal:beCareful> <vidal:midwife>true</vidal:midwife> <vidal:perVolume>3g</vidal:perVolume> <vidal:hasPublishedDoc>true</vidal:hasPublishedDoc> <vidal:onMarketDate format="yyyy-MM-dd">1980-03-15</vidal:onMarketDate> <vidal:withoutPrescription>true</vidal:withoutPrescription> <vidal:vmp vidalId="8028">montmorillonite beidellitique * 3 g ; voie orale + voie rectale ; pdre p susp buv/rect</vidal:vmp> </entry> </feed>';
 
         var json = scope.parseXmlToJson(response);
 
@@ -140,7 +140,7 @@ describe('WadlParser controller tests', function() {
         expect(json.links.length).toBe(1);
         expect(json.links[0].rel).toBe("self");
         expect(json.links[0].type).toBe("application/atom+xml");
-        expect(json.links[0].href).toBe("/rest/api/products?q=bedel&start-page=1&page-size=25");
+        expect(json.links[0].href).toBe("/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25");
         expect(json.id).toBe("/rest/api/products?q=bedel&start-page=1&page-size=25");
         expect(json.updated).toBe("2014-09-17T22:00:00Z");
         expect(json.dcDate).toBe("2014-09-17T22:00:00Z");
@@ -149,36 +149,35 @@ describe('WadlParser controller tests', function() {
         expect(json.opensearch.startIndex).toBe("1");
     });
 
-//    it('should parse xml response and extract link infos' , function () {
-//        var response = '<?xml version="1.0" encoding="UTF-8"?><link rel="self" type="application/atom+xml" href="/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25" /> <id>/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25</id> <updated>2014-09-17T22:00:00Z</updated> <dc:date>2014-09-17T22:00:00Z</dc:date> <opensearch:itemsPerPage>25</opensearch:itemsPerPage> <opensearch:totalResults>1</opensearch:totalResults> <opensearch:startIndex>1</opensearch:startIndex> <entry> <title>BEDELIX 3 g pdre p susp buv</title> <link rel="alternate" type="application/atom+xml" href="/rest/api/product/1971" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/packages" title="PACKAGES" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents/opt" title="OPT_DOCUMENT" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents" title="DOCUMENTS" /> <link rel="related" type="application/atom+xml" href="/rest/api/vmp/8028" title="VMP" />';
-//        var links = [];
-//        jQuery(response).children('link').each(function(){
-//            var link = scope.extractLinkRefacto(this);
-//            links.push(link);
-//        });
-//        expect(links[0].rel).toBe("alternate");
-//        expect(entry.links[0].type).toBe("application/atom+xml");
-//        expect(entry.links[0].href).toBe("/rest/api/product/1971");
-//
-//        expect(entry.links[1].rel).toBe("related");
-//        expect(entry.links[1].type).toBe("application/atom+xml");
-//        expect(entry.links[1].href).toBe("/rest/api/product/1971/packages");
-//
-//        expect(entry.links[2].rel).toBe("related");
-//        expect(entry.links[2].type).toBe("application/atom+xml");
-//        expect(entry.links[2].href).toBe("/rest/api/product/1971/documents/opt");
-//
-//        expect(entry.links[3].rel).toBe("related");
-//        expect(entry.links[3].type).toBe("application/atom+xml");
-//        expect(entry.links[3].href).toBe("/rest/api/product/1971/documents");
-//
-//        expect(entry.links[4].rel).toBe("related");
-//        expect(entry.links[4].type).toBe("application/atom+xml");
-//        expect(entry.links[4].href).toBe("/rest/api/vmp/8028");
-//    });
+    it('should parse xml response and extract link infos' , function () {
+        var response = '<?xml version="1.0" encoding="UTF-8"?><link rel="self" type="application/atom+xml" href="/rest/api/products?q=bedel&start-page=1&page-size=25" /> <id>/rest/api/products?q=bedel&start-page=1&page-size=25</id> <updated>2014-09-17T22:00:00Z</updated> <dc:date>2014-09-17T22:00:00Z</dc:date> <opensearch:itemsPerPage>25</opensearch:itemsPerPage> <opensearch:totalResults>1</opensearch:totalResults> <opensearch:startIndex>1</opensearch:startIndex> <entry> <title>BEDELIX 3 g pdre p susp buv</title> <link rel="alternate" type="application/atom+xml" href="/rest/api/product/1971" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/packages" title="PACKAGES" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents/opt" title="OPT_DOCUMENT" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents" title="DOCUMENTS" /> <link rel="related" type="application/atom+xml" href="/rest/api/vmp/8028" title="VMP" />';
+        var links = [];
+        jQuery(response).children('link').each(function(){
+            links.push(scope.extractAttributesFromXmlAutoClosingTag(this, 'link'));
+        });
+        expect(links[0].rel).toBe("alternate");
+        expect(links[0].type).toBe("application/atom+xml");
+        expect(links[0].href).toBe("/rest/api/product/1971");
+
+        expect(links[1].rel).toBe("related");
+        expect(links[1].type).toBe("application/atom+xml");
+        expect(links[1].href).toBe("/rest/api/product/1971/packages");
+
+        expect(links[2].rel).toBe("related");
+        expect(links[2].type).toBe("application/atom+xml");
+        expect(links[2].href).toBe("/rest/api/product/1971/documents/opt");
+
+        expect(links[3].rel).toBe("related");
+        expect(links[3].type).toBe("application/atom+xml");
+        expect(links[3].href).toBe("/rest/api/product/1971/documents");
+
+        expect(links[4].rel).toBe("related");
+        expect(links[4].type).toBe("application/atom+xml");
+        expect(links[4].href).toBe("/rest/api/vmp/8028");
+    });
 
     it('should parse xml response and extract entry infos' , function () {
-        var response = '<?xml version="1.0" encoding="UTF-8"?> <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:vidal="http://api.vidal.net/-/spec/vidal-api/1.0/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/"> <title>Search Products - Query :bedel</title> <link rel="self" type="application/atom+xml" href="/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25" /> <id>/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25</id> <updated>2014-09-17T22:00:00Z</updated> <dc:date>2014-09-17T22:00:00Z</dc:date> <opensearch:itemsPerPage>25</opensearch:itemsPerPage> <opensearch:totalResults>1</opensearch:totalResults> <opensearch:startIndex>1</opensearch:startIndex> <entry> <title>BEDELIX 3 g pdre p susp buv</title> <link rel="alternate" type="application/atom+xml" href="/rest/api/product/1971" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/packages" title="PACKAGES" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents/opt" title="OPT_DOCUMENT" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents" title="DOCUMENTS" /> <link rel="related" type="application/atom+xml" href="/rest/api/vmp/8028" title="VMP" /> <category term="PRODUCT" /> <author> <name>VIDAL</name> </author> <id>vidal://product/1971</id> <updated>2014-09-17T22:00:00Z</updated> <summary type="text">BEDELIX 3 g pdre p susp buv</summary> <vidal:id>1971</vidal:id> <vidal:dispensationPlace name="PHARMACY">PHARMACY</vidal:dispensationPlace> <vidal:activePrinciples>montmorillonite beidellitique</vidal:activePrinciples> <vidal:horsGHS>false</vidal:horsGHS> <vidal:refundRate name="NR">NR</vidal:refundRate> <vidal:itemType name="VIDAL">VIDAL</vidal:itemType> <vidal:marketStatus name="AVAILABLE">Commercialisé</vidal:marketStatus> <vidal:company type="OWNER" vidalId="2908">Ipsen Pharma</vidal:company> <vidal:drugInSport>false</vidal:drugInSport> <vidal:exceptional>false</vidal:exceptional> <vidal:retrocession>false</vidal:retrocession> <vidal:beCareful>false</vidal:beCareful> <vidal:midwife>true</vidal:midwife> <vidal:perVolume>3g</vidal:perVolume> <vidal:hasPublishedDoc>true</vidal:hasPublishedDoc> <vidal:onMarketDate format="yyyy-MM-dd">1980-03-15</vidal:onMarketDate> <vidal:withoutPrescription>true</vidal:withoutPrescription> <vidal:vmp vidalId="8028">montmorillonite beidellitique * 3 g ; voie orale + voie rectale ; pdre p susp buv/rect</vidal:vmp> </entry> </feed>';
+        var response = '<?xml version="1.0" encoding="UTF-8"?> <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:vidal="http://api.vidal.net/-/spec/vidal-api/1.0/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/"> <title>Search Products - Query :bedel</title> <link rel="self" type="application/atom+xml" href="/rest/api/products?q=bedel&start-page=1&page-size=25" /> <id>/rest/api/products?q=bedel&start-page=1&page-size=25</id> <updated>2014-09-17T22:00:00Z</updated> <dc:date>2014-09-17T22:00:00Z</dc:date> <opensearch:itemsPerPage>25</opensearch:itemsPerPage> <opensearch:totalResults>1</opensearch:totalResults> <opensearch:startIndex>1</opensearch:startIndex> <entry> <title>BEDELIX 3 g pdre p susp buv</title> <link rel="alternate" type="application/atom+xml" href="/rest/api/product/1971" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/packages" title="PACKAGES" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents/opt" title="OPT_DOCUMENT" /> <link rel="related" type="application/atom+xml" href="/rest/api/product/1971/documents" title="DOCUMENTS" /> <link rel="related" type="application/atom+xml" href="/rest/api/vmp/8028" title="VMP" /> <category term="PRODUCT" /> <author> <name>VIDAL</name> </author> <id>vidal://product/1971</id> <updated>2014-09-17T22:00:00Z</updated> <summary type="text">BEDELIX 3 g pdre p susp buv</summary> <vidal:id>1971</vidal:id> <vidal:dispensationPlace name="PHARMACY">PHARMACY</vidal:dispensationPlace> <vidal:activePrinciples>montmorillonite beidellitique</vidal:activePrinciples> <vidal:horsGHS>false</vidal:horsGHS> <vidal:refundRate name="NR">NR</vidal:refundRate> <vidal:itemType name="VIDAL">VIDAL</vidal:itemType> <vidal:marketStatus name="AVAILABLE">Commercialisé</vidal:marketStatus> <vidal:company type="OWNER" vidalId="2908">Ipsen Pharma</vidal:company> <vidal:drugInSport>false</vidal:drugInSport> <vidal:exceptional>false</vidal:exceptional> <vidal:retrocession>false</vidal:retrocession> <vidal:beCareful>false</vidal:beCareful> <vidal:midwife>true</vidal:midwife> <vidal:perVolume>3g</vidal:perVolume> <vidal:hasPublishedDoc>true</vidal:hasPublishedDoc> <vidal:onMarketDate format="yyyy-MM-dd">1980-03-15</vidal:onMarketDate> <vidal:withoutPrescription>true</vidal:withoutPrescription> <vidal:vmp vidalId="8028">montmorillonite beidellitique * 3 g ; voie orale + voie rectale ; pdre p susp buv/rect</vidal:vmp> </entry> </feed>';
         var entry = scope.extractEntry(jQuery(response).children('entry'));
 
         expect(entry).not.toBe(null);
@@ -204,7 +203,14 @@ describe('WadlParser controller tests', function() {
         expect(entry.links[4].type).toBe("application/atom+xml");
         expect(entry.links[4].href).toBe("/rest/api/vmp/8028");
 
-
+        expect(entry.category).not.toBe(null);
+        expect(entry.category.term).toBe("PRODUCT");
+        expect(entry.author.name).toBe("VIDAL");
+        expect(entry.id).toBe("vidal://product/1971");
+        expect(entry.updated).toBe("2014-09-17T22:00:00Z");
+        expect(entry.summary.type).toBe("text");
+        expect(entry.summary.text).toBe("BEDELIX 3 g pdre p susp buv");
+    });
 
 
 //            <link rel="alternate" type="application/atom+xml" href="/rest/api/product/1971" />
@@ -236,7 +242,7 @@ describe('WadlParser controller tests', function() {
 //            <vidal:withoutPrescription>true</vidal:withoutPrescription>
 //            <vidal:vmp vidalId="8028">montmorillonite beidellitique * 3 g ; voie orale + voie rectale ; pdre p susp buv/rect</vidal:vmp>
 //            </entry>
-    });
+//    });
 
   });
 

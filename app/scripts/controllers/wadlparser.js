@@ -259,11 +259,11 @@ angular.module('wadlFormApp')
         feed.opensearch.startIndex = jQuery(xml).children('opensearch\\:startIndex').text();
         feed.links = [];
         jQuery(xml).children('link').each(function(){
-            feed.links.push($scope.extractLink(this));
+            feed.links.push($scope.extractAttributesFromXmlAutoClosingTag(this));
         });
         feed.entries = [];
         jQuery(xml).children('entry').each(function(){
-            feed.entries.push($scope.extractEntry(this));
+            feed.entries.push($scope.extractAttributesFromXmlAutoClosingTag(this));
         });
         return feed;
     };
@@ -273,31 +273,58 @@ angular.module('wadlFormApp')
         entry.title = jQuery(xml).children('title').text();
         entry.links = [];
         jQuery(xml).children('link').each(function(){
-            entry.links.push($scope.extractLink(this));
+            entry.links.push($scope.extractAttributesFromXmlAutoClosingTag(this));
         });
+        var categories = jQuery(xml).children('category');
+        if(categories.length > 0){
+            categories.map(function(){
+                entry.category = $scope.extractAttributesFromXmlAutoClosingTag(this, 'category');
+            });
+        }
+        var author = jQuery(xml).children('author');
+        if(author.length > 0 && author[0] != null){
+            var name = jQuery(author[0]).children('name');
+            if(name.length > 0 && name[0] != null){
+                entry.author = {};
+                entry.author.name = name[0].innerHTML;
+            }
+        }
+        var id = jQuery(xml).children('id');
+        if(id.length > 0 && id[0] != null){
+            entry.id = id[0].innerHTML;
+        };
+        var updated = jQuery(xml).children('updated');
+        if(updated.length > 0 && updated[0] != null){
+            entry.updated = updated[0].innerHTML;
+        };
+        var summary = jQuery(xml).children('summary');
+        if(summary.length > 0 && summary[0] != null){
+            var type = jQuery(summary[0]).attr("type");
+            entry.summary = {};
+            entry.summary.type = type;
+            entry.summary[type] = summary[0].innerHTML;
+        };
+
         return entry;
     };
 
-    $scope.extractLink = function(xml){
-        var link = {};
-        link.rel = jQuery(xml).attr("rel");
-        link.type = jQuery(xml).attr("type");
-        link.href = jQuery(xml).attr("href");
-        return link;
-    };
-
-    $scope.extractLinkRefacto = function(xml){
-        console.log("input = "+xml);
-        var link = {};
-        var attributes = xml.attr("*");
-        for (var attribute in attributes){
-            console.log("xmlLink['"+attribute+"' = "+xml[xmlLink]);
+    $scope.extractAttributesFromXmlAutoClosingTag = function (xml, tagToMatch){
+        var result = {};
+        var splittedExpression = [];
+        if(typeof xml == 'string' ){
+            splittedExpression = xml.split(" ");
         }
-        console.log(attributes);
-        attributes.each(function(index, element) {
-                link[name] = value;
-            });
-        console.log(link);
-        return link;
+        else if(typeof xml == 'object' && typeof xml.outerHTML != 'undefined'){
+            splittedExpression = xml.outerHTML.split(" ");
+        }
+        for(expression in splittedExpression){
+            if (splittedExpression.hasOwnProperty(expression) && splittedExpression[expression].indexOf("=") != -1) {
+                var splittedOnEqualExpression = splittedExpression[expression].split("\"");
+                var attributeNameWithoutEqual = splittedOnEqualExpression[0].replace("=","");
+                var attributeValueWithoutEndingEqual = splittedOnEqualExpression[0].slice(0, -1);
+                result[attributeNameWithoutEqual] = splittedOnEqualExpression[1];
+            }
+        }
+        return result;
     };
   });

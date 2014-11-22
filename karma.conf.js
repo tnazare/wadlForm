@@ -27,12 +27,8 @@ module.exports = function(config) {
       'bower_components/angular-smoothscroll/dist/scripts/bb15da28.scripts.js',
       'bower_components/jquery/dist/jquery.js',
       'app/scripts/app.js',
-      'app/scripts/controllers/main.js',
-      'app/scripts/controllers/about.js',
       'app/scripts/controllers/wadlparser.js',
       //'test/mock/**/*.js',
-      'test/spec/controllers/about.js',
-      'test/spec/controllers/main.js',
       'test/spec/controllers/wadlparser.js'
     ],
 
