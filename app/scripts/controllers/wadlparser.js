@@ -271,16 +271,6 @@ angular.module('wadlFormApp')
     $scope.extractEntry = function(xml){
         var entry = {};
         entry.title = jQuery(xml).children('title').text();
-        entry.links = [];
-        jQuery(xml).children('link').each(function(){
-            entry.links.push($scope.extractAttributesFromXmlAutoClosingTag(this));
-        });
-        var categories = jQuery(xml).children('category');
-        if(categories.length > 0){
-            categories.map(function(){
-                entry.category = $scope.extractAttributesFromXmlAutoClosingTag(this, 'category');
-            });
-        }
         var author = jQuery(xml).children('author');
         if(author.length > 0 && author[0] != null){
             var name = jQuery(author[0]).children('name');
@@ -304,11 +294,58 @@ angular.module('wadlFormApp')
             entry.summary.type = type;
             entry.summary[type] = summary[0].innerHTML;
         };
-
+        var children = jQuery(xml).children('*');
+        for (var index = 0 ; index < children.length ; index++){
+            var currentChild = children[index];
+            // autoclosing tags
+            if(currentChild.innerHTML == ""){
+                entry = $scope.addObjectToEntry(entry,
+                                    currentChild.tagName,
+                                    $scope.extractAttributesFromXmlAutoClosingTag(currentChild));
+            }
+            else if(currentChild.tagName.toLowerCase().indexOf('vidal') != -1){
+                var subTagName = currentChild.tagName.toLowerCase().slice(6,currentChild.tagName.length);
+                var subTagInnerHTML = currentChild.innerHTML;
+                if(typeof entry.vidal == "undefined"){
+                    entry.vidal = {};
+                }
+                entry.vidal[subTagName] = subTagInnerHTML;
+            }
+            else{
+                var subTagName = currentChild.tagName.toLowerCase();
+                var subTagInnerHTML = currentChild.innerHTML;
+                var subTagObject = {};
+                var subTagAttributesArray = $scope.extractAttributesFromStartingTag(currentChild);
+                entry[subTagName] = subTagInnerHTML;
+            }
+        }
         return entry;
     };
 
-    $scope.extractAttributesFromXmlAutoClosingTag = function (xml, tagToMatch){
+    $scope.addObjectToEntry = function(entry, propertyName, object){
+        var entryProperty = {};
+        if(!entry.hasOwnProperty(propertyName.toLowerCase())
+            && !entry.hasOwnProperty(propertyName.toLowerCase()+"s")){
+            entryProperty = object;
+            entry[propertyName.toLowerCase()] = entryProperty;
+        }
+        else if(entry.hasOwnProperty(propertyName.toLowerCase())
+                && !entry.hasOwnProperty(propertyName.toLowerCase()+"s")
+                && typeof entry[propertyName.toLowerCase()] != 'array'){
+            var temp = entry[propertyName.toLowerCase()];
+            entryProperty = [];
+            entryProperty.push(temp);
+            entryProperty.push(object);
+            entry[propertyName.toLowerCase()+"s"] = entryProperty;
+            delete entry[propertyName.toLowerCase()];
+        }
+        else if(entry.hasOwnProperty(propertyName.toLowerCase()+"s")){
+            entry[propertyName.toLowerCase()+"s"].push(object);
+        }
+        return entry;
+    };
+
+    $scope.extractAttributesFromXmlAutoClosingTag = function (xml){
         var result = {};
         var splittedExpression = [];
         if(typeof xml == 'string' ){
@@ -324,6 +361,42 @@ angular.module('wadlFormApp')
                 var attributeValueWithoutEndingEqual = splittedOnEqualExpression[0].slice(0, -1);
                 result[attributeNameWithoutEqual] = splittedOnEqualExpression[1];
             }
+        }
+        return result;
+    };
+
+    $scope.extractAttributesFromStartingTag = function (xml){
+        var result = {};
+        var splittedExpression = [];
+        var startingTag = "";
+        if(typeof xml == 'string' ){
+            splittedExpression = xml.split(" ");
+            startingTag = xml.slice(0,xml.indexOf(">"));
+        }
+        else if(typeof xml == 'object' && typeof xml.outerHTML != 'undefined'){
+            splittedExpression = xml.outerHTML.split(" ");
+            startingTag = xml.outerHTML.slice(0,xml.outerHTML.indexOf(">"));
+        }
+        console.log("xml = "+xml.outerHTML);
+        console.log("startingTag = "+startingTag);
+        for(expression in splittedExpression){
+            if (splittedExpression.hasOwnProperty(expression) && splittedExpression[expression].indexOf("=") != -1) {
+                var splittedOnEqualExpression = splittedExpression[expression].split("\"");
+                var attributeNameWithoutEqual = splittedOnEqualExpression[0].replace("=","");
+                var attributeValueWithoutEndingEqual = splittedOnEqualExpression[0].slice(0, -1);
+                result[attributeNameWithoutEqual] = splittedOnEqualExpression[1];
+            }
+        }
+
+        if(jQuery(xml).children("*").length > 0){
+            var children = jQuery(xml).contents('*');
+            for( var i = 0 ; i < children.length; i++){
+                console.log("child = "+children[i].outerHTML);
+                result[children[i].tagName] = $scope.extractAttributesFromStartingTag(children[i].outerHTML);
+            };
+        }
+        else{
+            result.innerText     = xml.innerHTML;
         }
         return result;
     };
