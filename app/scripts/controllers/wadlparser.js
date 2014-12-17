@@ -52,9 +52,24 @@ angular.module('wadlFormApp')
             if(childrenResources.length == 0 || childrenMethods.length > 0){
               var concatenatedUrl = '';
               parents.each(function(){
-                concatenatedUrl += jQuery(this).attr('path') !== 'undefined' ? jQuery(this).attr('path') : "";
+                if(jQuery(this).attr('path') !== 'undefined'){
+                    if(jQuery(this).attr('path').substring(0,1) != "/"){
+                        concatenatedUrl += "/";
+                    }
+                    concatenatedUrl += jQuery(this).attr('path');
+                }
               });
-              jQuery(currentResource).attr('path', concatenatedUrl + jQuery(currentResource).attr('path'));
+              if(jQuery(currentResource).attr('path') !== 'undefined'
+                && jQuery(currentResource).attr('path').substring(0,1) != "/" ){
+                    concatenatedUrl += "/";
+              }
+              concatenatedUrl += jQuery(currentResource).attr('path');
+              while (concatenatedUrl.substring(0,1) == "/"){
+                concatenatedUrl = concatenatedUrl.substring(1,concatenatedUrl.length);
+                console.log("concatenatedUrl = "+concatenatedUrl);
+              }
+              jQuery(currentResource).attr('path', concatenatedUrl);
+              console.log("jQuery(currentResource).attr('path') = " + jQuery(currentResource).attr('path'));
               resources.innerArray.push(currentResource);
             }
           }
@@ -193,7 +208,6 @@ angular.module('wadlFormApp')
     $scope.isString = function (param){
         if(typeof param == 'undefined')
             return false;
-        console.log("isString; param : "+param);
         for(var i = 0 ; i < $scope.stringsTypes.length ; i ++){
             if(typeof param.httpType != 'undefined' && $scope.stringsTypes[i] == param.httpType){
                 return true;
@@ -212,28 +226,24 @@ angular.module('wadlFormApp')
     };
 
     $scope.resourcesAreNotEmpty = function(){
-        console.log("passe dans selectedResourceHasMethods = ");
         return typeof $scope.resources !== "undefined"
                && typeof $scope.resources.innerArray !== "undefined"
                && $scope.resources.innerArray.length > 0;
     };
 
     $scope.selectedResourceHasMethods = function(){
-        console.log("passe dans selectedResourceHasMethods = ");
         return typeof $scope.query.selectedResource !== "undefined"
                && typeof $scope.query.selectedResource.methods !== "undefined"
                && typeof $scope.query.selectedResource.methods.length > 0;
     };
 
     $scope.selectedResourceHasQueryParams = function(){
-        console.log("passe dans selectedResourceHasQueryParams = ");
         return typeof $scope.query.selectedResource !== "undefined"
                && typeof $scope.query.selectedResource.queryParams !== "undefined"
                && typeof $scope.query.selectedResource.queryParams.length > 0;
     };
 
     $scope.selectedResourceHasFormParams = function(){
-        console.log("passe dans selectedResourceHasFormParams = ");
         return typeof $scope.query.selectedResource !== "undefined"
                && typeof $scope.query.selectedResource.params !== "undefined"
                && typeof $scope.query.selectedResource.params.length > 0;
@@ -377,8 +387,6 @@ angular.module('wadlFormApp')
             splittedExpression = xml.outerHTML.split(" ");
             startingTag = xml.outerHTML.slice(0,xml.outerHTML.indexOf(">"));
         }
-        console.log("xml = "+xml.outerHTML);
-        console.log("startingTag = "+startingTag);
         for(expression in splittedExpression){
             if (splittedExpression.hasOwnProperty(expression) && splittedExpression[expression].indexOf("=") != -1) {
                 var splittedOnEqualExpression = splittedExpression[expression].split("\"");
@@ -391,7 +399,6 @@ angular.module('wadlFormApp')
         if(jQuery(xml).children("*").length > 0){
             var children = jQuery(xml).contents('*');
             for( var i = 0 ; i < children.length; i++){
-                console.log("child = "+children[i].outerHTML);
                 result[children[i].tagName] = $scope.extractAttributesFromStartingTag(children[i].outerHTML);
             };
         }
