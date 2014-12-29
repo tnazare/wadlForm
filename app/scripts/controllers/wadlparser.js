@@ -223,6 +223,14 @@ angular.module('wadlFormApp')
         }
     };
 
+    $scope.isPostMethod = function (method){
+        if(typeof method == 'undefined')
+            return false;
+        if(method.httpMethodName.toLowerCase() == 'post')
+            return true
+        return false;
+    };
+
     $scope.resourcesAreNotEmpty = function(){
         return typeof $scope.resources !== "undefined"
                && typeof $scope.resources.innerArray !== "undefined"

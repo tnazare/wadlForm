@@ -39,6 +39,13 @@
                 <select id="method" ng-model="query.selectedMethod" ng-options="method.httpMethodName+' '+method.httpId for method in query.selectedResource.methods"></select>
               </div>
             </fieldset>
+            <fieldset ng-show="isPostMethod(query.selectedMethod)">
+              <legend>Post Parameters</legend>
+              <textarea name="">
+
+              </textarea>
+            </fieldset>
+
             <fieldset ng-show="query.selectedMethod && query.selectedMethod.params.length != 0">
               <legend>Query Parameters</legend>
               <div class="form-group" ng-repeat="param in query.selectedMethod.params">
