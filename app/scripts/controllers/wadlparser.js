@@ -66,10 +66,8 @@ angular.module('wadlFormApp')
               concatenatedUrl += jQuery(currentResource).attr('path');
               while (concatenatedUrl.substring(0,1) == "/"){
                 concatenatedUrl = concatenatedUrl.substring(1,concatenatedUrl.length);
-                console.log("concatenatedUrl = "+concatenatedUrl);
               }
               jQuery(currentResource).attr('path', concatenatedUrl);
-              console.log("jQuery(currentResource).attr('path') = " + jQuery(currentResource).attr('path'));
               resources.innerArray.push(currentResource);
             }
           }
@@ -280,30 +278,6 @@ angular.module('wadlFormApp')
 
     $scope.extractEntry = function(xml){
         var entry = {};
-        entry.title = jQuery(xml).children('title').text();
-        var author = jQuery(xml).children('author');
-        if(author.length > 0 && author[0] != null){
-            var name = jQuery(author[0]).children('name');
-            if(name.length > 0 && name[0] != null){
-                entry.author = {};
-                entry.author.name = name[0].innerHTML;
-            }
-        }
-        var id = jQuery(xml).children('id');
-        if(id.length > 0 && id[0] != null){
-            entry.id = id[0].innerHTML;
-        };
-        var updated = jQuery(xml).children('updated');
-        if(updated.length > 0 && updated[0] != null){
-            entry.updated = updated[0].innerHTML;
-        };
-        var summary = jQuery(xml).children('summary');
-        if(summary.length > 0 && summary[0] != null){
-            var type = jQuery(summary[0]).attr("type");
-            entry.summary = {};
-            entry.summary.type = type;
-            entry.summary[type] = summary[0].innerHTML;
-        };
         var children = jQuery(xml).children('*');
         for (var index = 0 ; index < children.length ; index++){
             var currentChild = children[index];
@@ -313,20 +287,32 @@ angular.module('wadlFormApp')
                                     currentChild.tagName,
                                     $scope.extractAttributesFromXmlAutoClosingTag(currentChild));
             }
+            // Vidal's Namespace handling
             else if(currentChild.tagName.toLowerCase().indexOf('vidal') != -1){
                 var subTagName = currentChild.tagName.toLowerCase().slice(6,currentChild.tagName.length);
                 var subTagInnerHTML = currentChild.innerHTML;
                 if(typeof entry.vidal == "undefined"){
                     entry.vidal = {};
                 }
-                entry.vidal[subTagName] = subTagInnerHTML;
+                var subTagAttributesArray = $scope.extractAttributesFromStartingTag(currentChild);
+                if(typeof subTagAttributesArray == 'object'){
+                  entry.vidal[subTagName] = subTagAttributesArray;
+                }
+                else{
+                  entry.vidal[subTagName] = subTagInnerHTML;
+                }
             }
             else{
                 var subTagName = currentChild.tagName.toLowerCase();
                 var subTagInnerHTML = currentChild.innerHTML;
                 var subTagObject = {};
                 var subTagAttributesArray = $scope.extractAttributesFromStartingTag(currentChild);
-                entry[subTagName] = subTagInnerHTML;
+                if(typeof subTagAttributesArray == 'object'){
+                  entry[subTagName] = subTagAttributesArray;
+                }
+                else{
+                  entry[subTagName] = subTagInnerHTML;
+                }
             }
         }
         return entry;
@@ -387,6 +373,8 @@ angular.module('wadlFormApp')
             splittedExpression = xml.outerHTML.split(" ");
             startingTag = xml.outerHTML.slice(0,xml.outerHTML.indexOf(">"));
         }
+
+        // Handling attributes
         for(expression in splittedExpression){
             if (splittedExpression.hasOwnProperty(expression) && splittedExpression[expression].indexOf("=") != -1) {
                 var splittedOnEqualExpression = splittedExpression[expression].split("\"");
@@ -396,15 +384,26 @@ angular.module('wadlFormApp')
             }
         }
 
+        // Handling Children
         if(jQuery(xml).children("*").length > 0){
             var children = jQuery(xml).contents('*');
             for( var i = 0 ; i < children.length; i++){
-                result[children[i].tagName] = $scope.extractAttributesFromStartingTag(children[i].outerHTML);
+                if(jQuery(children[i]).children("*").length > 0){
+                  result[children[i].tagName] = $scope.extractAttributesFromStartingTag(children[i]);
+                }
+                else{
+                  var temp = {};
+                  temp.innerText = children[i].innerHTML;
+                  result[children[i].tagName.toLowerCase()] = temp;
+                }
             };
         }
+
+        // handling innerhtml text
         else{
-            result.innerText     = xml.innerHTML;
+            result.innerText = xml.innerHTML;
         }
+
         return result;
     };
   });
