@@ -23,6 +23,7 @@ angular.module('wadlFormApp')
     $scope.formSubmittedData = {};
     $scope.formSubmittedData.queryParams = {};
     $scope.formSubmittedData.formParams = {};
+    $scope.formSubmittedData.postPayload = "";
     $scope.responseAtom = {};
 
     $scope.loadWadlOnClick = function(url, event){
@@ -155,10 +156,20 @@ angular.module('wadlFormApp')
                     console.error("status = "+status);
                 });
         }
-        $http({
-        url: $scope.formSubmittedData.path,
-        method: $scope.formSubmittedData.verb
-        });
+        else {
+          var httpResponsePromise
+                = $http({"url": $scope.formSubmittedData.path,
+                         "method": "POST",
+                         "data": $scope.formSubmittedData.postPayload,
+                         "headers": {'Content-Type': 'text/plain'},
+                         })
+              .success(function(data,status,header,config) {
+                  $scope.responseXml = data;
+              })
+              .error(function(data,status,header,config) {
+                  console.error("status = "+status);
+              });
+        }
     };
 
     $scope.inlineUrlParamsInRequestPath = function(path, queryParams){
@@ -286,6 +297,23 @@ angular.module('wadlFormApp')
 
     $scope.extractEntry = function(xml){
         var entry = {};
+        entry.title = jQuery(xml).children('title').text();
+        var author = jQuery(xml).children('author');
+        if(author.length > 0 && author[0] != null){
+            var name = jQuery(author[0]).children('name');
+            if(name.length > 0 && name[0] != null){
+                entry.author = {};
+                entry.author.name = name[0].innerHTML;
+            }
+        }
+        var id = jQuery(xml).children('id');
+        if(id.length > 0 && id[0] != null){
+            entry.id = id[0].innerHTML;
+        };
+        var updated = jQuery(xml).children('updated');
+        if(updated.length > 0 && updated[0] != null){
+            entry.updated = updated[0].innerHTML;
+        };
         var children = jQuery(xml).children('*');
         for (var index = 0 ; index < children.length ; index++){
             var currentChild = children[index];
