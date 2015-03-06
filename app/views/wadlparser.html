@@ -36,7 +36,7 @@
               <legend>Méthode HTTP à utiliser</legend>
               <div class="form-group">
                 <label for="method" class="col-sm-2 control-label" >Verbe : </label>
-                <select id="method" ng-model="query.selectedMethod" ng-options="method.httpMethodName+' '+method.httpId for method in query.selectedResource.methods"></select>
+                <select id="method" ng-model="query.selectedMethod" ng-options="method.verb+' '+method.httpId for method in query.selectedResource.methods"></select>
               </div>
             </fieldset>
             <fieldset ng-show="isPostMethod(query.selectedMethod)">

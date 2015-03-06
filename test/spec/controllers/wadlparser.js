@@ -39,13 +39,12 @@ describe('WadlParser controller tests', function() {
       expect(resources.innerArray.length).toBe(1);
     });
 
-
     it('should parse xml and retrieve requests within the first resource', function () {
       var resources = scope.parseWadl(xmlString);
 
       expect(resources.innerArray[0].methods.length).toBe(2);
       expect(resources.innerArray[0].methods[0].params.length).toBe(12);
-      expect(resources.innerArray[0].methods[0].httpMethodName).toBe('GET');
+      expect(resources.innerArray[0].methods[0].verb).toBe('GET');
     });
 
     it('should parse xml and retrieve params within the first request of the first resource', function () {
@@ -107,10 +106,8 @@ describe('WadlParser controller tests', function() {
       expect(resources.innerArray[1].path).toBe("pmsi/postControl");
       expect(resources.innerArray[2].methods.length).toBe(1);
       expect(resources.innerArray[2].path).toBe("pmsi/text-analysis");
-
+      expect(resources.innerArray[2].methods[0].verb).toBe("POST");
     });
-
-
 
     it('should inline each url param pattern by the submited value', function () {
       var path = 'http://dev-software.vidal.net/excalibur-rest-snapshot/rest/imd/cladimed/{id}/products';

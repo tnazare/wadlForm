@@ -125,7 +125,7 @@ angular.module('wadlFormApp')
             });
             for (var j = 0; j < resources.innerArray[i].methods.length; j++) {
                 resources.innerArray[i].methods[j].params = [];
-                resources.innerArray[i].methods[j].httpMethodName = jQuery(resources.innerArray[i].methods[j]).attr('name');
+                resources.innerArray[i].methods[j].verb = jQuery(resources.innerArray[i].methods[j]).attr('name');
                 resources.innerArray[i].methods[j].httpId = jQuery(resources.innerArray[i].methods[j]).attr('id');
                 jQuery(resources.innerArray[i].methods[j]).find('param').each(function(){
                     var param = {};
@@ -144,7 +144,7 @@ angular.module('wadlFormApp')
     $scope.launchRequestOnClick = function(){
 
         $scope.formSubmittedData.path = $scope.resources.base + $scope.inlineFormParamsInGetRequestPath($scope.inlineUrlParamsInRequestPath($scope.query.selectedResource.path,$scope.formSubmittedData.queryParams),$scope.formSubmittedData.formParams);
-        $scope.formSubmittedData.verb = $scope.query.selectedMethod.httpMethodName;
+        $scope.formSubmittedData.verb = $scope.query.selectedMethod.verb;
 
         $scope.formSubmittedData.path = $scope.inlineFormParamsInGetRequestPath($scope.formSubmittedData.path,$scope.vidalAuthorization);
         if($scope.formSubmittedData.verb == "GET"){
@@ -237,7 +237,7 @@ angular.module('wadlFormApp')
     $scope.isPostMethod = function (method){
         if(typeof method == 'undefined')
             return false;
-        if(method.httpMethodName.toLowerCase() == 'post')
+        if(method.verb.toLowerCase() == 'post')
             return true
         return false;
     };
