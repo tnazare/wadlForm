@@ -47,8 +47,25 @@ body {
   border-bottom: 1px solid #e5e5e5;
 }
 .jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+  font-size: px;
+  padding: 5px 5px;
+}
+
+
+div.responseBox{
+  margin-top:20px;
+}
+
+div.entryBox{
+  background-color:#EEE;
+  border:1px solid #AAA;
+  border-radius:5px;
+  padding:5px;
+  margin-top:5px;
+}
+
+small-text{
+  font-size:11px;
 }
 
 /* Supporting marketing content */
@@ -72,8 +89,10 @@ body {
   .header {
     margin-bottom: 30px;
   }
+
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
+
 }

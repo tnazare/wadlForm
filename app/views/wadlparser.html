@@ -61,10 +61,39 @@
           </form>
         </div>
         <div class="row" id="responseRow">
-          <fieldset ng-show="responseXml">
-            <legend>Response</legend>
-            <p><pre class="prettyprint" ng-show="responseXml">{{responseXml}}</pre></p>
-          </fieldset>
+          <div class="responseBox">
+            <div class="entryBox" ng-repeat="entry in responseJson.entries" >
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label>{{entry.title.innerText}}</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <span class="glyphicon glyphicon-calendar" />
+                    <span class="small">{{entry.updated.innerText}}</span>
+                  </div>
+                  <div class="col-sm-3" >
+                    <span class="glyphicon glyphicon-screenshot"/>
+                    <span class="small">{{entry.id.innerText}}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <span class="small">{{entry.summary.innerText}}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12" ng-repeat="link in entry.links">
+                    <span class="glyphicon glyphicon-log-in" ng-show="isInlineLink(link)"/>
+                    <span class="glyphicon glyphicon-log-out" ng-show="isRelatedLink(link)"/>
+                    <span class="glyphicon glyphicon-share"/>
+                    <span class="glyphicon glyphicon-share-alt" ng-show="isAlternateLink(link)"/>
+                    <span class="glyphicon glyphicon-link"/>
+                    <span class="glyphicon glyphicon-new-window" ng-show="isAlternateLink(link)"/>
+                    <span class="small">{{entry.summary.innerText}}</span>
+                  </div>
+                </div>
+            </div>
+          </div>
         </div>
     </div>
 </div>
