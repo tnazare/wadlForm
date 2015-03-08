@@ -1,3 +1,4 @@
+'use strict';
 describe('WadlParser controller tests', function() {
 
   describe('Controller: WadlParser', function() {
@@ -100,18 +101,18 @@ describe('WadlParser controller tests', function() {
 
       expect(resources.innerArray.length).toBe(3);
       expect(resources.innerArray[0].methods.length).toBe(1);
-      expect(resources.innerArray[0].path).toBe("pmsi/postComplement");
+      expect(resources.innerArray[0].path).toBe('pmsi/postComplement');
 
       expect(resources.innerArray[1].methods.length).toBe(2);
-      expect(resources.innerArray[1].path).toBe("pmsi/postControl");
+      expect(resources.innerArray[1].path).toBe('pmsi/postControl');
       expect(resources.innerArray[2].methods.length).toBe(1);
-      expect(resources.innerArray[2].path).toBe("pmsi/text-analysis");
-      expect(resources.innerArray[2].methods[0].verb).toBe("POST");
+      expect(resources.innerArray[2].path).toBe('pmsi/text-analysis');
+      expect(resources.innerArray[2].methods[0].verb).toBe('POST');
     });
 
     it('should inline each url param pattern by the submited value', function () {
       var path = 'http://dev-software.vidal.net/excalibur-rest-snapshot/rest/imd/cladimed/{id}/products';
-      var queryParams = {"id":12} ;
+      var queryParams = {'id':12} ;
 
       var result = scope.inlineUrlParamsInRequestPath(path,queryParams);
 
@@ -120,7 +121,7 @@ describe('WadlParser controller tests', function() {
 
     it('should append query params submitted by form', function () {
       var path = 'http://dev-software.vidal.net/excalibur-rest-snapshot/rest/imd/cladimed/12/products';
-      var formParams = {"page-size": 21,"start-page": 34,"status": "zsqzdqzdqzd"} ;
+      var formParams = {'page-size': 21,'start-page': 34,'status': 'zsqzdqzdqzd'} ;
 
       var result = scope.inlineFormParamsInGetRequestPath(path,formParams);
 
@@ -129,7 +130,7 @@ describe('WadlParser controller tests', function() {
 
     it('should append query params submitted by form properly and not add multiple ?', function () {
       var path = 'http://dev-software.vidal.net/excalibur-rest-snapshot/rest/imd/cladimed/12/products?';
-      var formParams = {"page-size": 21,"start-page": 34,"status": "zsqzdqzdqzd"} ;
+      var formParams = {'page-size': 21,'start-page': 34,'status': 'zsqzdqzdqzd'} ;
 
       var result = scope.inlineFormParamsInGetRequestPath(path,formParams);
 
@@ -138,7 +139,7 @@ describe('WadlParser controller tests', function() {
 
     it('should append query params submitted by form properly and not forget to add a &', function () {
       var path = 'http://dev-software.vidal.net/excalibur-rest-snapshot/rest/imd/cladimed/12/products?q=21';
-      var formParams = {"page-size": 21,"start-page": 34,"status": "zsqzdqzdqzd"} ;
+      var formParams = {'page-size': 21,'start-page': 34,'status': 'zsqzdqzdqzd'} ;
 
       var result = scope.inlineFormParamsInGetRequestPath(path,formParams);
 
@@ -151,17 +152,17 @@ describe('WadlParser controller tests', function() {
         var json = scope.parseXmlToJson(response);
 
         expect(json).not.toBe(null);
-        expect(json.title).toBe("Search Products - Query :bedel");
+        expect(json.title).toBe('Search Products - Query :bedel');
         expect(json.links.length).toBe(1);
-        expect(json.links[0].rel).toBe("self");
-        expect(json.links[0].type).toBe("application/atom+xml");
-        expect(json.links[0].href).toBe("/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25");
-        expect(json.id).toBe("/rest/api/products?q=bedel&start-page=1&page-size=25");
-        expect(json.updated).toBe("2014-09-17T22:00:00Z");
-        expect(json.dcDate).toBe("2014-09-17T22:00:00Z");
-        expect(json.opensearch.itemsPerPage).toBe("25");
-        expect(json.opensearch.totalResults).toBe("1");
-        expect(json.opensearch.startIndex).toBe("1");
+        expect(json.links[0].rel).toBe('self');
+        expect(json.links[0].type).toBe('application/atom+xml');
+        expect(json.links[0].href).toBe('/rest/api/products?q=bedel&amp;start-page=1&amp;page-size=25');
+        expect(json.id).toBe('/rest/api/products?q=bedel&start-page=1&page-size=25');
+        expect(json.updated).toBe('2014-09-17T22:00:00Z');
+        expect(json.dcDate).toBe('2014-09-17T22:00:00Z');
+        expect(json.opensearch.itemsPerPage).toBe('25');
+        expect(json.opensearch.totalResults).toBe('1');
+        expect(json.opensearch.startIndex).toBe('1');
     });
 
     it('should parse xml response and extract link infos' , function () {
@@ -170,25 +171,25 @@ describe('WadlParser controller tests', function() {
         jQuery(response).children('link').each(function(){
             links.push(scope.extractAttributesFromXmlAutoClosingTag(this, 'link'));
         });
-        expect(links[0].rel).toBe("alternate");
-        expect(links[0].type).toBe("application/atom+xml");
-        expect(links[0].href).toBe("/rest/api/product/1971");
+        expect(links[0].rel).toBe('alternate');
+        expect(links[0].type).toBe('application/atom+xml');
+        expect(links[0].href).toBe('/rest/api/product/1971');
 
-        expect(links[1].rel).toBe("related");
-        expect(links[1].type).toBe("application/atom+xml");
-        expect(links[1].href).toBe("/rest/api/product/1971/packages");
+        expect(links[1].rel).toBe('related');
+        expect(links[1].type).toBe('application/atom+xml');
+        expect(links[1].href).toBe('/rest/api/product/1971/packages');
 
-        expect(links[2].rel).toBe("related");
-        expect(links[2].type).toBe("application/atom+xml");
-        expect(links[2].href).toBe("/rest/api/product/1971/documents/opt");
+        expect(links[2].rel).toBe('related');
+        expect(links[2].type).toBe('application/atom+xml');
+        expect(links[2].href).toBe('/rest/api/product/1971/documents/opt');
 
-        expect(links[3].rel).toBe("related");
-        expect(links[3].type).toBe("application/atom+xml");
-        expect(links[3].href).toBe("/rest/api/product/1971/documents");
+        expect(links[3].rel).toBe('related');
+        expect(links[3].type).toBe('application/atom+xml');
+        expect(links[3].href).toBe('/rest/api/product/1971/documents');
 
-        expect(links[4].rel).toBe("related");
-        expect(links[4].type).toBe("application/atom+xml");
-        expect(links[4].href).toBe("/rest/api/vmp/8028");
+        expect(links[4].rel).toBe('related');
+        expect(links[4].type).toBe('application/atom+xml');
+        expect(links[4].href).toBe('/rest/api/vmp/8028');
     });
 
     it('should parse xml response and extract entry infos' , function () {
@@ -197,57 +198,57 @@ describe('WadlParser controller tests', function() {
         var entry = scope.extractEntry(jQuery(response).children('entry'));
 
         expect(entry).not.toBe(null);
-        expect(entry.title.innerText).toBe("AUGMENTIN 100 mg/12,5 mg p ml pdre p susp buv Enf");
+        expect(entry.title.innerText).toBe('AUGMENTIN 100 mg/12,5 mg p ml pdre p susp buv Enf');
         expect(entry.links.length).toBe(5);
-        expect(entry.links[0].rel).toBe("alternate");
-        expect(entry.links[0].type).toBe("application/atom+xml");
-        expect(entry.links[0].href).toBe("/rest/api/product/1735");
+        expect(entry.links[0].rel).toBe('alternate');
+        expect(entry.links[0].type).toBe('application/atom+xml');
+        expect(entry.links[0].href).toBe('/rest/api/product/1735');
 
-        expect(entry.links[1].rel).toBe("related");
-        expect(entry.links[1].type).toBe("application/atom+xml");
-        expect(entry.links[1].href).toBe("/rest/api/product/1735/packages");
+        expect(entry.links[1].rel).toBe('related');
+        expect(entry.links[1].type).toBe('application/atom+xml');
+        expect(entry.links[1].href).toBe('/rest/api/product/1735/packages');
 
-        expect(entry.links[2].rel).toBe("related");
-        expect(entry.links[2].type).toBe("application/atom+xml");
-        expect(entry.links[2].href).toBe("/rest/api/product/1735/documents/opt?patient=false");
+        expect(entry.links[2].rel).toBe('related');
+        expect(entry.links[2].type).toBe('application/atom+xml');
+        expect(entry.links[2].href).toBe('/rest/api/product/1735/documents/opt?patient=false');
 
-        expect(entry.links[3].rel).toBe("related");
-        expect(entry.links[3].type).toBe("application/atom+xml");
-        expect(entry.links[3].href).toBe("/rest/api/product/1735/documents");
+        expect(entry.links[3].rel).toBe('related');
+        expect(entry.links[3].type).toBe('application/atom+xml');
+        expect(entry.links[3].href).toBe('/rest/api/product/1735/documents');
 
-        expect(entry.links[4].rel).toBe("related");
-        expect(entry.links[4].type).toBe("application/atom+xml");
-        expect(entry.links[4].href).toBe("/rest/api/vmp/2675");
+        expect(entry.links[4].rel).toBe('related');
+        expect(entry.links[4].type).toBe('application/atom+xml');
+        expect(entry.links[4].href).toBe('/rest/api/vmp/2675');
 
         expect(entry.category).not.toBe(null);
-        expect(entry.category.term).toBe("PRODUCT");
-        expect(entry.author.name.innerText).toBe("VIDAL");
-        expect(entry.id.innerText).toBe("vidal://product/1735");
-        expect(entry.updated.innerText).toBe("2048-07-21T22:00:00Z");
-        expect(entry.summary.type).toBe("text");
-        expect(entry.summary.innerText).toBe("AUGMENTIN 100 mg/12,5 mg p ml pdre p susp buv Enf");
-        expect(entry.vidal.id.innerText).toBe("1735");
-        expect(entry.vidal.dispensationplace.name).toBe("PHARMACY");
-        expect(entry.vidal.dispensationplace.innerText).toBe("PHARMACY");
-        expect(entry.vidal.activeprinciples.innerText).toBe("acide clavulanique sel de K; amoxicilline trihydrate");
-        expect(entry.vidal.horsghs.innerText).toBe("false");
-        expect(entry.vidal.refundrate.name).toBe("_65");
-        expect(entry.vidal.refundrate.innerText).toBe("65%");
-        expect(entry.vidal.company.type).toBe("OWNER");
-        expect(entry.vidal.company.vidalid).toBe("986");
-        expect(entry.vidal.company.innerText).toBe("GlaxoSmithKline");
-        expect(entry.vidal.druginsport.innerText).toBe("false");
-        expect(entry.vidal.exceptional.innerText).toBe("false");
-        expect(entry.vidal.retrocession.innerText).toBe("false");
-        expect(entry.vidal.becareful.innerText).toBe("false");
-        expect(entry.vidal.midwife.innerText).toBe("false");
-        expect(entry.vidal.pervolume.innerText).toBe("100mg/12,5mgpml");
-        expect(entry.vidal.haspublisheddoc.innerText).toBe("true");
-        expect(entry.vidal.onmarketdate.format).toBe("yyyy-MM-dd");
-        expect(entry.vidal.onmarketdate.innerText).toBe("1998-05-14");
-        expect(entry.vidal.withoutprescription.innerText).toBe("false");
-        expect(entry.vidal.vmp.vidalid).toBe("2675");
-        expect(entry.vidal.vmp.innerText).toBe("acide clavulanique (sel de K) * 12,5 mg/ml + amoxicilline * 100 mg/ml ; voie orale ; pdre p susp buv");
+        expect(entry.category.term).toBe('PRODUCT');
+        expect(entry.author.name.innerText).toBe('VIDAL');
+        expect(entry.id.innerText).toBe('vidal://product/1735');
+        expect(entry.updated.innerText).toBe('2048-07-21T22:00:00Z');
+        expect(entry.summary.type).toBe('text');
+        expect(entry.summary.innerText).toBe('AUGMENTIN 100 mg/12,5 mg p ml pdre p susp buv Enf');
+        expect(entry.vidal.id.innerText).toBe('1735');
+        expect(entry.vidal.dispensationplace.name).toBe('PHARMACY');
+        expect(entry.vidal.dispensationplace.innerText).toBe('PHARMACY');
+        expect(entry.vidal.activeprinciples.innerText).toBe('acide clavulanique sel de K; amoxicilline trihydrate');
+        expect(entry.vidal.horsghs.innerText).toBe('false');
+        expect(entry.vidal.refundrate.name).toBe('_65');
+        expect(entry.vidal.refundrate.innerText).toBe('65%');
+        expect(entry.vidal.company.type).toBe('OWNER');
+        expect(entry.vidal.company.vidalid).toBe('986');
+        expect(entry.vidal.company.innerText).toBe('GlaxoSmithKline');
+        expect(entry.vidal.druginsport.innerText).toBe('false');
+        expect(entry.vidal.exceptional.innerText).toBe('false');
+        expect(entry.vidal.retrocession.innerText).toBe('false');
+        expect(entry.vidal.becareful.innerText).toBe('false');
+        expect(entry.vidal.midwife.innerText).toBe('false');
+        expect(entry.vidal.pervolume.innerText).toBe('100mg/12,5mgpml');
+        expect(entry.vidal.haspublisheddoc.innerText).toBe('true');
+        expect(entry.vidal.onmarketdate.format).toBe('yyyy-MM-dd');
+        expect(entry.vidal.onmarketdate.innerText).toBe('1998-05-14');
+        expect(entry.vidal.withoutprescription.innerText).toBe('false');
+        expect(entry.vidal.vmp.vidalid).toBe('2675');
+        expect(entry.vidal.vmp.innerText).toBe('acide clavulanique (sel de K) * 12,5 mg/ml + amoxicilline * 100 mg/ml ; voie orale ; pdre p susp buv');
     });
 
   });

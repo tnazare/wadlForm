@@ -18,6 +18,8 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "jquery": true,
+  "loopfunc": true,
   "globals": {
     "angular": false
   }
